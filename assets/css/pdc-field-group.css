@@ -1,0 +1,390 @@
+/*--------------------------------------------------------------------------------------------
+*
+*	vars
+*
+*--------------------------------------------------------------------------------------------*/
+/* colors */
+/* pdc-field */
+/* responsive */
+/*---------------------------------------------------------------------------------------------
+*
+*  Global
+*
+*---------------------------------------------------------------------------------------------*/
+#adv-settings .show-field-keys label {
+  padding: 0 5px;
+}
+/*---------------------------------------------------------------------------------------------
+*
+*  Postbox: Publish
+*
+*---------------------------------------------------------------------------------------------*/
+#minor-publishing-actions,
+#misc-publishing-actions #visibility {
+  display: none;
+}
+#minor-publishing {
+  border-bottom: 0 none;
+}
+#misc-pub-section {
+  border-bottom: 0 none;
+}
+#misc-publishing-actions .misc-pub-section {
+  border-bottom-color: #F5F5F5;
+}
+/*---------------------------------------------------------------------------------------------
+*
+*  Postbox: Fields
+*
+*---------------------------------------------------------------------------------------------*/
+.pdc-field p.description {
+  margin: 0;
+  padding: 0;
+  font-style: normal;
+  font-size: 12px;
+  line-height: 1.4em;
+  color: #777777;
+  display: block;
+}
+#pdc-field-group-fields > .inside,
+#pdc-field-group-locations > .inside,
+#pdc-field-group-options > .inside {
+  padding: 0;
+  margin: 0;
+}
+#pdc-field-group-fields {
+  border: 0 none;
+  box-shadow: none;
+}
+#pdc-field-group-fields > .handlediv,
+#pdc-field-group-fields > .hndle {
+  display: none;
+}
+.no-fields-message {
+  padding: 15px 15px;
+  background: #fff;
+}
+.pdc-field-list-wrap {
+  border: #DFDFDF solid 1px;
+}
+/* table header */
+.li-field-order {
+  width: 22%;
+  padding-right: 0 !important;
+}
+.li-field-label {
+  width: 28%;
+}
+.li-field-name {
+  width: 25%;
+}
+.li-field-type {
+  width: 25%;
+}
+/* field list */
+.pdc-field-list {
+  background: #F9F9F9;
+  margin-top: -1px;
+}
+.pdc-field-list a {
+  text-decoration: none;
+}
+.pdc-field-list a:active,
+.pdc-field-list a:focus {
+  outline: none;
+  box-shadow: none;
+}
+/* field object */
+.pdc-field-object {
+  border-top: #F0F0F0 solid 1px;
+  background: #fff;
+}
+.pdc-field-object.ui-sortable-helper {
+  border-top-color: #fff;
+  box-shadow: 0 0 0 1px #DFDFDF, 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+.pdc-field-object.ui-sortable-placeholder {
+  box-shadow: 0 -1px 0 0 #DFDFDF;
+  visibility: visible !important;
+  background: #F9F9F9;
+  border-top-color: transparent;
+}
+.pdc-field-object[data-key="pdccloneindex"] {
+  display: none !important;
+}
+/* field object (open) */
+.pdc-field-object.open + .pdc-field-object {
+  border-top-color: #E1E1E1;
+}
+/* field object meta */
+.pdc-field-object .meta {
+  display: none;
+}
+/* field object handle */
+.pdc-field-object .handle li {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  word-wrap: break-word;
+}
+.pdc-field-object .handle .pdc-icon {
+  margin: 1px 0 0;
+  cursor: move;
+  background: transparent;
+  float: left;
+  height: 28px;
+  line-height: 28px;
+  width: 28px;
+  font-size: 13px;
+  color: #444;
+  position: relative;
+  z-index: 1;
+}
+.pdc-field-object .handle strong {
+  display: block;
+  padding-bottom: 6px;
+  font-size: 14px;
+  line-height: 14px;
+  min-height: 14px;
+}
+.pdc-field-object.open > .handle .pdc-required {
+  color: #fff;
+}
+.pdc-field-object .handle .row-options {
+  visibility: hidden;
+}
+.pdc-field-object:hover > .handle .row-options {
+  visibility: visible;
+}
+.pdc-field-object .handle .row-options a {
+  margin-right: 4px;
+}
+.pdc-field-object .handle .delete-field:hover {
+  color: #f00;
+}
+/* field object handle (open) */
+.pdc-field-object.open > .handle {
+  background: #2a9bd9;
+  border: #2696d3 solid 1px;
+  text-shadow: #268FBB 0 1px 0;
+  color: #fff;
+  position: relative;
+  margin: -1px -1px 0 -1px;
+}
+.pdc-field-object.open > .handle a {
+  color: #fff !important;
+  -webkit-transition: none;
+  -moz-transition: none;
+  -o-transition: none;
+  transition: none;
+}
+.pdc-field-object.open > .handle .row-options a:hover {
+  text-decoration: underline;
+}
+.pdc-field-object.open > .handle .pdc-icon {
+  border-color: #fff;
+  color: #fff;
+}
+/* field object settings */
+.pdc-field-object > .settings {
+  display: none;
+  width: 100%;
+}
+.pdc-field-object > .settings > .pdc-table {
+  border: none;
+}
+/* conditional logic */
+.pdc-field-object .rule-groups {
+  margin-top: 20px;
+}
+/* field object keys */
+.pdc-field-object .handle .pre-field-key {
+  border: #E1E1E1 solid 1px;
+  margin: 4px 0 0 -6px;
+  padding: 5px 5px 5px 11px;
+  font: inherit;
+  float: left;
+  border-radius: 0 3px 3px 0;
+  display: none;
+  border-left: none;
+  font-size: 12px;
+  line-height: 12px;
+}
+.pdc-field-object.open > .handle .pre-field-key {
+  border-color: #FAFCFD;
+}
+.show-field-keys .pdc-field-object .handle .pre-field-key {
+  display: block;
+}
+.show-field-keys .li-field-order {
+  width: 24%;
+}
+.show-field-keys .li-field-label {
+  width: 26%;
+}
+/*---------------------------------------------------------------------------------------------
+*
+* Postbox: Locations
+*
+*---------------------------------------------------------------------------------------------*/
+.rule-groups h4 {
+  margin: 15px 0 5px;
+}
+.rule-groups .rule-group {
+  margin: 0 0 5px;
+}
+.rule-groups .rule-group h4 {
+  margin: 0 0 3px;
+}
+.rule-groups .rule-group td.param {
+  width: 35%;
+}
+.rule-groups .rule-group td.operator {
+  width: 20%;
+}
+.rule-groups .rule-group td.add {
+  width: 40px;
+}
+.rule-groups .rule-group td.remove {
+  width: 28px;
+  vertical-align: middle;
+  visibility: hidden;
+}
+.rule-groups .rule-group tr:hover td.remove {
+  visibility: visible;
+}
+/* Don't allow user to delete the first field group */
+.rule-groups .rule-group:first-child tr:first-child td.remove {
+  visibility: hidden !important;
+}
+/*---------------------------------------------------------------------------------------------
+*
+*	Options
+*	
+*---------------------------------------------------------------------------------------------*/
+#pdc-field-group-options tr[data-name="hide_on_screen"] li {
+  float: left;
+  width: 33%;
+}
+@media (max-width: 1100px) {
+  #pdc-field-group-options tr[data-name="hide_on_screen"] li {
+    width: 50%;
+  }
+}
+/*---------------------------------------------------------------------------------------------
+*
+*	Conditional Logic
+*	
+*---------------------------------------------------------------------------------------------*/
+table.conditional-logic-rules {
+  background: transparent;
+  border: 0 none;
+  border-radius: 0;
+}
+table.conditional-logic-rules tbody td {
+  background: transparent;
+  border: 0 none !important;
+  padding: 5px 2px !important;
+}
+/*---------------------------------------------------------------------------------------------
+*
+*	Field: Tab
+*	
+*---------------------------------------------------------------------------------------------*/
+.pdc-field-object-tab tr[data-name="name"],
+.pdc-field-object-tab tr[data-name="instructions"],
+.pdc-field-object-tab tr[data-name="required"],
+.pdc-field-object-tab tr[data-name="warning"],
+.pdc-field-object-tab tr[data-name="wrapper"] {
+  display: none !important;
+}
+.pdc-field-object-tab .li-field-name {
+  visibility: hidden;
+}
+.pdc-field-object-tab .pdc-error-message {
+  display: none;
+}
+.pdc-field-list[data-layout="table"] .pdc-field-object-tab .pdc-error-message {
+  display: block;
+}
+.pdc-field-object + .pdc-field-object-tab {
+  margin-top: 6px;
+}
+.pdc-field-object + .pdc-field-object-tab:before {
+  display: block;
+  content: "";
+  height: 1px;
+  background: #F0F0F0;
+  margin-top: -7px;
+  width: 100%;
+  position: absolute;
+}
+.pdc-field-object + .pdc-field-object-tab.ui-sortable-placeholder {
+  margin-top: 0;
+  padding-top: 6px;
+}
+.pdc-field-object-tab.ui-sortable-helper:before,
+.ui-sortable-placeholder + .pdc-field-object-tab:before {
+  display: none;
+}
+/*---------------------------------------------------------------------------------------------
+*
+*	Field: Message
+*	
+*---------------------------------------------------------------------------------------------*/
+.pdc-field-object-message tr[data-name="name"],
+.pdc-field-object-message tr[data-name="instructions"],
+.pdc-field-object-message tr[data-name="required"] {
+  display: none !important;
+}
+.pdc-field-object-message .li-field-name {
+  visibility: hidden;
+}
+.pdc-field-object-message textarea {
+  height: 175px !important;
+}
+/*---------------------------------------------------------------------------------------------
+*
+*	Field: Date Picker
+*	
+*---------------------------------------------------------------------------------------------*/
+.pdc-field-object-date_picker .pdc-radio-list span {
+  display: inline-block;
+  width: 100px;
+}
+/*--------------------------------------------------------------------------------------------
+*
+*	RTL
+*
+*--------------------------------------------------------------------------------------------*/
+html[dir="rtl"] .pdc-field-object.open > .handle {
+  margin: -1px -1px 0;
+}
+html[dir="rtl"] .pdc-field-object.open > .handle .pdc-icon {
+  float: right;
+}
+html[dir="rtl"] .pdc-field-object.open > .handle .li-field-order {
+  padding-left: 0 !important;
+  padding-right: 15px !important;
+}
+/*---------------------------------------------------------------------------------------------
+*
+*  Device
+*
+*---------------------------------------------------------------------------------------------*/
+@media only screen and (max-width: 850px) {
+  tr.pdc-field,
+  td.pdc-label,
+  td.pdc-input {
+    display: block !important;
+    width: auto !important;
+    border: 0 none !important;
+  }
+  tr.pdc-field {
+    border-top: #ededed solid 1px !important;
+    margin-bottom: 0 !important;
+  }
+  td.pdc-label {
+    background: transparent !important;
+    padding-bottom: 0 !important;
+  }
+}
