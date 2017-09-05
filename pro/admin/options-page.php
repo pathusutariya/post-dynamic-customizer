@@ -39,7 +39,7 @@ class pdc_admin_options_page {
 	/*
 	*  pdc_location_rules_types
 	*
-	*  this function will add "Options Page" to the ACF location rules
+	*  this function will add "Options Page" to the pdc location rules
 	*
 	*  @type	function
 	*  @date	2/02/13
@@ -60,7 +60,7 @@ class pdc_admin_options_page {
 	/*
 	*  pdc_location_rules_values_options_page
 	*
-	*  this function will populate the available pages in the ACF location rules
+	*  this function will populate the available pages in the pdc location rules
 	*
 	*  @type	function
 	*  @date	2/02/13

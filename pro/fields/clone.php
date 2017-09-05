@@ -1,19 +1,19 @@
 <?php
 
 /*
-*  ACF Clone Field Class
+*  pdc Clone Field Class
 *
 *  All the logic for this field type
 *
-*  @class 		acf_field_clone
-*  @extends		acf_field
-*  @package		ACF
+*  @class 		pdc_field_clone
+*  @extends		pdc_field
+*  @package		pdc
 *  @subpackage	Fields
 */
 
-if( ! class_exists('acf_field_clone') ) :
+if( ! class_exists('pdc_field_clone') ) :
 
-class acf_field_clone extends acf_field {
+class pdc_field_clone extends pdc_field {
 	
 	
 	/*
@@ -33,7 +33,7 @@ class acf_field_clone extends acf_field {
 		
 		// vars
 		$this->name = 'clone';
-		$this->label = _x('Clone', 'noun', 'acf');
+		$this->label = _x('Clone', 'noun', 'pdc');
 		$this->category = 'layout';
 		$this->defaults = array(
 			'clone' 		=> '',
@@ -46,17 +46,17 @@ class acf_field_clone extends acf_field {
 		
 		
 		// register filter
-		acf_enable_filter('clone');
+		pdc_enable_filter('clone');
 		
 		
 		// ajax
-		add_action('wp_ajax_acf/fields/clone/query', array($this, 'ajax_query'));
+		add_action('wp_ajax_pdc/fields/clone/query', array($this, 'ajax_query'));
 		
 		
 		// filters
-		add_filter('acf/get_fields', 		array($this, 'acf_get_fields'), 5, 2);
-		add_filter('acf/prepare_field',		array($this, 'acf_prepare_field'), 10, 1);
-		add_filter('acf/clone_field',		array($this, 'acf_clone_field'), 10, 2);
+		add_filter('pdc/get_fields', 		array($this, 'pdc_get_fields'), 5, 2);
+		add_filter('pdc/prepare_field',		array($this, 'pdc_prepare_field'), 10, 1);
+		add_filter('pdc/clone_field',		array($this, 'pdc_clone_field'), 10, 2);
 		
 		
 		// do not delete!
@@ -68,7 +68,7 @@ class acf_field_clone extends acf_field {
 	/*
 	*  is_enabled
 	*
-	*  This function will return true if acf_local functionality is enabled
+	*  This function will return true if pdc_local functionality is enabled
 	*
 	*  @type	function
 	*  @date	14/07/2016
@@ -80,7 +80,7 @@ class acf_field_clone extends acf_field {
 	
 	function is_enabled() {
 		
-		return acf_is_filter_enabled('clone');
+		return pdc_is_filter_enabled('clone');
 		
 	}
 	
@@ -117,9 +117,9 @@ class acf_field_clone extends acf_field {
 	
 	
 	/*
-	*  acf_get_fields
+	*  pdc_get_fields
 	*
-	*  This function will hook into the 'acf/get_fields' filter and inject/replace seamless clones fields
+	*  This function will hook into the 'pdc/get_fields' filter and inject/replace seamless clones fields
 	*
 	*  @type	function
 	*  @date	17/06/2016
@@ -130,7 +130,7 @@ class acf_field_clone extends acf_field {
 	*  @return	$fields
 	*/
 	
-	function acf_get_fields( $fields, $parent ) {
+	function pdc_get_fields( $fields, $parent ) {
 		
 		// bail early if not enabled
 		if( !$this->is_enabled() ) return $fields;
@@ -208,11 +208,11 @@ class acf_field_clone extends acf_field {
 		foreach( $field['clone'] as $selector ) {
 			
 			// field group
-			if( acf_is_field_group_key($selector) ) {
+			if( pdc_is_field_group_key($selector) ) {
 				
 				// vars
-				$field_group = acf_get_field_group($selector);
-				$field_group_fields = acf_get_fields($field_group);
+				$field_group = pdc_get_field_group($selector);
+				$field_group_fields = pdc_get_fields($field_group);
 				
 				
 				// bail early if no fields
@@ -223,10 +223,10 @@ class acf_field_clone extends acf_field {
 				$fields = array_merge($fields, $field_group_fields);
 				
 			// field
-			} elseif( acf_is_field_key($selector) ) {
+			} elseif( pdc_is_field_key($selector) ) {
 				
 				// append
-				$fields[] = acf_get_field($selector);
+				$fields[] = pdc_get_field($selector);
 				
 			}
 			
@@ -246,10 +246,10 @@ class acf_field_clone extends acf_field {
 		
 		
 		// loop
-		// run acf_clone_field() on each cloned field to modify name, key, etc
+		// run pdc_clone_field() on each cloned field to modify name, key, etc
 		foreach( array_keys($fields) as $i ) {
 			
-			$fields[ $i ] = acf_clone_field( $fields[ $i ], $field );
+			$fields[ $i ] = pdc_clone_field( $fields[ $i ], $field );
 				
 		}
 		
@@ -261,10 +261,10 @@ class acf_field_clone extends acf_field {
 	
 	
 	/*
-	*  acf_clone_field
+	*  pdc_clone_field
 	*
 	*  This function is run when cloning a clone field
-	*  Important to run the acf_clone_field function on sub fields to pass on settings such as 'parent_layout' 
+	*  Important to run the pdc_clone_field function on sub fields to pass on settings such as 'parent_layout' 
 	*
 	*  @type	function
 	*  @date	28/06/2016
@@ -275,7 +275,7 @@ class acf_field_clone extends acf_field {
 	*  @return	$field
 	*/
 	
-	function acf_clone_field( $field, $clone_field ) {
+	function pdc_clone_field( $field, $clone_field ) {
 		
 		// bail early if this field is being cloned by some other kind of field (future proof)
 		if( $clone_field['type'] != 'clone' ) return $field;
@@ -294,7 +294,7 @@ class acf_field_clone extends acf_field {
 		
 		// modify key 
 		// - this will allow sub clone fields to correctly load values for the same cloned field
-		// - the original key will later be restored by acf/prepare_field allowing conditional logic JS to work
+		// - the original key will later be restored by pdc/prepare_field allowing conditional logic JS to work
 		$field['key'] = $clone_field['key'] . '_' . $field['key'];
 		
 		
@@ -314,16 +314,16 @@ class acf_field_clone extends acf_field {
 		// name_format
 		if( $clone_field['prefix_name'] ) {
 			
-			//acf_log('== acf_clone_field ==');
-			//acf_log('- clone name', $clone_field['name']);
-			//acf_log('- clone _name', $clone_field['_name']);
+			//pdc_log('== pdc_clone_field ==');
+			//pdc_log('- clone name', $clone_field['name']);
+			//pdc_log('- clone _name', $clone_field['_name']);
 			
 			//$name = $field['name'];
 			//$_name = $field['_name'];
 			
 			$field['name'] = $clone_field['name'] . '_' . $field['_name'];
 			
-			//acf_log('- field name:', $name, '=>', $field['name']);
+			//pdc_log('- field name:', $name, '=>', $field['name']);
 			
 			
 			if( $clone_field['display'] == 'seamless' ) {
@@ -332,9 +332,9 @@ class acf_field_clone extends acf_field {
 				
 			}
 			
-			//acf_log('- field _name:', $_name, '=>', $field['_name']);
+			//pdc_log('- field _name:', $_name, '=>', $field['_name']);
 			
-			//acf_log('');
+			//pdc_log('');
 			
 		}
 		
@@ -350,7 +350,7 @@ class acf_field_clone extends acf_field {
 		// type specific
 		if( $field['type'] == 'clone' ) {
 			
-			$field = $this->acf_clone_clone_field( $field, $clone_field );
+			$field = $this->pdc_clone_clone_field( $field, $clone_field );
 			
 		}
 		
@@ -362,10 +362,10 @@ class acf_field_clone extends acf_field {
 	
 	
 	/*
-	*  acf_clone_clone_field
+	*  pdc_clone_clone_field
 	*
 	*  This function is run when cloning a clone field
-	*  Important to run the acf_clone_field function on sub fields to pass on settings such as 'parent_layout' 
+	*  Important to run the pdc_clone_field function on sub fields to pass on settings such as 'parent_layout' 
 	*
 	*  @type	function
 	*  @date	28/06/2016
@@ -376,7 +376,7 @@ class acf_field_clone extends acf_field {
 	*  @return	$field
 	*/
 	
-	function acf_clone_clone_field( $field, $clone_field ) {
+	function pdc_clone_clone_field( $field, $clone_field ) {
 		
 		// when cloning a clone field, it is important to also change the _name too
 		// this allows sub clone fields to appear correctly in get_row() row array
@@ -401,7 +401,7 @@ class acf_field_clone extends acf_field {
 			
 			
 			// clone
-			$sub_field = acf_clone_field( $sub_field, $clone_field );
+			$sub_field = pdc_clone_field( $sub_field, $clone_field );
 			
 			
 			// update
@@ -451,9 +451,9 @@ class acf_field_clone extends acf_field {
 		// bail ealry if _name is not found at the end of name (unknown potential error)
 		if( $prefix . $field['_name'] !== $field['name'] ) return $field;
 		
-		//acf_log('== prepare_field_for_db ==');
-		//acf_log('- clone name:', $field['name']);
-		//acf_log('- clone _name:', $field['_name']);
+		//pdc_log('== prepare_field_for_db ==');
+		//pdc_log('- clone name:', $field['name']);
+		//pdc_log('- clone _name:', $field['_name']);
 		
 		// loop
 		foreach( array_keys($field['sub_fields']) as $i ) {
@@ -463,13 +463,13 @@ class acf_field_clone extends acf_field {
 			
 			//$name = $sub_field['name'];
 			$sub_field['name'] = $prefix . $sub_field['name'];
-			//acf_log('- field name:', $name, '=>', $sub_field['name']);
+			//pdc_log('- field name:', $name, '=>', $sub_field['name']);
 			
 			// update
 			$field['sub_fields'][ $i ] = $sub_field;
 			
 		}
-		//acf_log('');
+		//pdc_log('');
 		
 		// return
 		return $field;
@@ -514,7 +514,7 @@ class acf_field_clone extends acf_field {
 			
 			
 			// get value
-			$sub_value = acf_get_value( $post_id, $sub_field );
+			$sub_value = pdc_get_value( $post_id, $sub_field );
 			
 			
 			// add value
@@ -563,11 +563,11 @@ class acf_field_clone extends acf_field {
 			
 			
 			// extract value
-			$sub_value = acf_extract_var( $value, $sub_field['key'] );
+			$sub_value = pdc_extract_var( $value, $sub_field['key'] );
 			
 			
 			// format value
-			$sub_value = acf_format_value( $sub_value, $post_id, $sub_field );
+			$sub_value = pdc_format_value( $sub_value, $post_id, $sub_field );
 			
 			
 			// append to $row
@@ -601,7 +601,7 @@ class acf_field_clone extends acf_field {
 	function update_value( $value, $post_id, $field ) {
 		
 		// bail early if no value
-		if( !acf_is_array($value) ) return null;
+		if( !pdc_is_array($value) ) return null;
 		
 		
 		// bail ealry if no sub fields
@@ -640,11 +640,11 @@ class acf_field_clone extends acf_field {
 			
 			
 			// restore original field key
-			$sub_field = $this->acf_prepare_field( $sub_field );
+			$sub_field = $this->pdc_prepare_field( $sub_field );
 			
 			
 			// update value
-			acf_update_value( $v, $post_id, $sub_field );
+			pdc_update_value( $v, $post_id, $sub_field );
 			
 		}
 		
@@ -746,11 +746,11 @@ class acf_field_clone extends acf_field {
 		
 		
 		// html
-		echo '<div class="acf-clone-fields acf-fields -'.$label_placement.'">';
+		echo '<div class="pdc-clone-fields pdc-fields -'.$label_placement.'">';
 			
 		foreach( $field['sub_fields'] as $sub_field ) {
 			
-			acf_render_field_wrap( $sub_field );
+			pdc_render_field_wrap( $sub_field );
 			
 		}
 		
@@ -775,13 +775,13 @@ class acf_field_clone extends acf_field {
 	function render_field_table( $field ) {
 		
 ?>
-<table class="acf-table">
+<table class="pdc-table">
 	<thead>
 		<tr>
 		<?php foreach( $field['sub_fields'] as $sub_field ): 
 			
 			// prepare field (allow sub fields to be removed)
-			$sub_field = acf_prepare_field($sub_field);
+			$sub_field = pdc_prepare_field($sub_field);
 			
 			
 			// bail ealry if no field
@@ -790,7 +790,7 @@ class acf_field_clone extends acf_field {
 			
 			// vars
 			$atts = array();
-			$atts['class'] = 'acf-th';
+			$atts['class'] = 'pdc-th';
 			$atts['data-name'] = $sub_field['_name'];
 			$atts['data-type'] = $sub_field['type'];
 			$atts['data-key'] = $sub_field['key'];
@@ -806,8 +806,8 @@ class acf_field_clone extends acf_field {
 			
 				
 			?>
-			<th <?php acf_esc_attr_e( $atts ); ?>>
-				<?php echo acf_get_field_label( $sub_field ); ?>
+			<th <?php pdc_esc_attr_e( $atts ); ?>>
+				<?php echo pdc_get_field_label( $sub_field ); ?>
 				<?php if( $sub_field['instructions'] ): ?>
 					<p class="description"><?php echo $sub_field['instructions']; ?></p>
 				<?php endif; ?>
@@ -816,12 +816,12 @@ class acf_field_clone extends acf_field {
 		</tr>
 	</thead>
 	<tbody>
-		<tr class="acf-row">
+		<tr class="pdc-row">
 		<?php 
 		
 		foreach( $field['sub_fields'] as $sub_field ) {
 			
-			acf_render_field_wrap( $sub_field, 'td' );
+			pdc_render_field_wrap( $sub_field, 'td' );
 			
 		}
 				
@@ -850,12 +850,12 @@ class acf_field_clone extends acf_field {
 	function render_field_settings( $field ) {
 		
 		// temp enable 'local' to allow .json fields to be displayed
-		acf_enable_filter('local');
+		pdc_enable_filter('local');
 		
 		// default_value
-		acf_render_field_setting( $field, array(
-			'label'			=> __('Fields', 'acf'),
-			'instructions'	=> __('Select one or more fields you wish to clone','acf'),
+		pdc_render_field_setting( $field, array(
+			'label'			=> __('Fields', 'pdc'),
+			'instructions'	=> __('Select one or more fields you wish to clone','pdc'),
 			'type'			=> 'select',
 			'name'			=> 'clone',
 			'multiple' 		=> 1,
@@ -863,47 +863,47 @@ class acf_field_clone extends acf_field {
 			'choices'		=> $this->get_clone_setting_choices( $field['clone'] ),
 			'ui'			=> 1,
 			'ajax'			=> 1,
-			'ajax_action'	=> 'acf/fields/clone/query',
+			'ajax_action'	=> 'pdc/fields/clone/query',
 			'placeholder'	=> '',
 		));
 		
-		acf_disable_filter('local');
+		pdc_disable_filter('local');
 		
 		
 		// display
-		acf_render_field_setting( $field, array(
-			'label'			=> __('Display','acf'),
-			'instructions'	=> __('Specify the style used to render the clone field', 'acf'),
+		pdc_render_field_setting( $field, array(
+			'label'			=> __('Display','pdc'),
+			'instructions'	=> __('Specify the style used to render the clone field', 'pdc'),
 			'type'			=> 'select',
 			'name'			=> 'display',
 			'class'			=> 'setting-display',
 			'choices'		=> array(
-				'group'			=> __('Group (displays selected fields in a group within this field)','acf'),
-				'seamless'		=> __('Seamless (replaces this field with selected fields)','acf'),
+				'group'			=> __('Group (displays selected fields in a group within this field)','pdc'),
+				'seamless'		=> __('Seamless (replaces this field with selected fields)','pdc'),
 			),
 		));
 		
 		
 		// layout
-		acf_render_field_setting( $field, array(
-			'label'			=> __('Layout','acf'),
-			'instructions'	=> __('Specify the style used to render the selected fields', 'acf'),
+		pdc_render_field_setting( $field, array(
+			'label'			=> __('Layout','pdc'),
+			'instructions'	=> __('Specify the style used to render the selected fields', 'pdc'),
 			'type'			=> 'radio',
 			'name'			=> 'layout',
 			'layout'		=> 'horizontal',
 			'choices'		=> array(
-				'block'			=> __('Block','acf'),
-				'table'			=> __('Table','acf'),
-				'row'			=> __('Row','acf')
+				'block'			=> __('Block','pdc'),
+				'table'			=> __('Table','pdc'),
+				'row'			=> __('Row','pdc')
 			)
 		));
 		
 		
 		// prefix_label
-		$instructions = __('Labels will be displayed as %s', 'acf');
+		$instructions = __('Labels will be displayed as %s', 'pdc');
 		$instructions = sprintf($instructions, '<code class="prefix-label-code-1"></code>');
-		acf_render_field_setting( $field, array(
-			'label'			=> __('Prefix Field Labels','acf'),
+		pdc_render_field_setting( $field, array(
+			'label'			=> __('Prefix Field Labels','pdc'),
 			'message'	=> $instructions,
 			//'instructions_placement'	=> 'field',
 			'name'			=> 'prefix_label',
@@ -914,10 +914,10 @@ class acf_field_clone extends acf_field {
 		
 		
 		// prefix_name
-		$instructions = __('Values will be saved as %s', 'acf');
+		$instructions = __('Values will be saved as %s', 'pdc');
 		$instructions = sprintf($instructions, '<code class="prefix-name-code-1"></code>');
-		acf_render_field_setting( $field, array(
-			'label'			=> __('Prefix Field Names','acf'),
+		pdc_render_field_setting( $field, array(
+			'label'			=> __('Prefix Field Names','pdc'),
 			'message'	=> $instructions,
 			//'instructions_placement'	=> 'field',
 			'name'			=> 'prefix_name',
@@ -953,7 +953,7 @@ class acf_field_clone extends acf_field {
 		
 		
 		// force value to array
-		$value = acf_get_array( $value );
+		$value = pdc_get_array( $value );
 			
 			
 		// loop
@@ -998,17 +998,17 @@ class acf_field_clone extends acf_field {
 		
 		
 		// field
-		if( acf_is_field_key($selector) ) {
+		if( pdc_is_field_key($selector) ) {
 			
-			return $this->get_clone_setting_field_choice( acf_get_field($selector) );
+			return $this->get_clone_setting_field_choice( pdc_get_field($selector) );
 			
 		}
 		
 		
 		// group
-		if( acf_is_field_group_key($selector) ) {
+		if( pdc_is_field_group_key($selector) ) {
 			
-			return $this->get_clone_setting_group_choice( acf_get_field_group($selector) );
+			return $this->get_clone_setting_group_choice( pdc_get_field_group($selector) );
 			
 		} 
 		
@@ -1035,11 +1035,11 @@ class acf_field_clone extends acf_field {
 	function get_clone_setting_field_choice( $field ) {
 		
 		// bail early if no field
-		if( !$field ) return __('Unknown field', 'acf');
+		if( !$field ) return __('Unknown field', 'pdc');
 		
 		
 		// title
-		$title = $field['label'] ? $field['label'] : __('(no title)', 'acf');
+		$title = $field['label'] ? $field['label'] : __('(no title)', 'pdc');
 					
 		
 		// append type
@@ -1048,7 +1048,7 @@ class acf_field_clone extends acf_field {
 		
 		// ancestors
 		// - allow for AJAX to send through ancestors count
-		$ancestors = isset($field['ancestors']) ? $field['ancestors'] : count(acf_get_field_ancestors($field));
+		$ancestors = isset($field['ancestors']) ? $field['ancestors'] : count(pdc_get_field_ancestors($field));
 		$title = str_repeat('- ', $ancestors) . $title;
 		
 		
@@ -1074,11 +1074,11 @@ class acf_field_clone extends acf_field {
 	function get_clone_setting_group_choice( $field_group ) {
 		
 		// bail early if no field group
-		if( !$field_group ) return __('Unknown field group', 'acf');
+		if( !$field_group ) return __('Unknown field group', 'pdc');
 		
 		
 		// return
-		return sprintf( __('All fields from %s field group', 'acf'), $field_group['title'] );
+		return sprintf( __('All fields from %s field group', 'pdc'), $field_group['title'] );
 		
 	}
 	
@@ -1099,15 +1099,15 @@ class acf_field_clone extends acf_field {
 	function ajax_query() {
 		
 		// validate
-		if( !acf_verify_ajax() ) die();
+		if( !pdc_verify_ajax() ) die();
 		
 		
 		// disable field to allow clone fields to appear selectable
-		acf_disable_filter('clone');
+		pdc_disable_filter('clone');
 		
 		
    		// options
-   		$options = acf_parse_args($_POST, array(
+   		$options = pdc_parse_args($_POST, array(
 			'post_id'	=> 0,
 			'paged'		=> 0,
 			's'			=> '',
@@ -1135,7 +1135,7 @@ class acf_field_clone extends acf_field {
 		
 		
 		// load groups
-		$field_groups = acf_get_field_groups();
+		$field_groups = pdc_get_field_groups();
 		$field_group = false;
 		
 		
@@ -1151,7 +1151,7 @@ class acf_field_clone extends acf_field {
 			
 			
 			// extract field group and move to start
-			$field_group = acf_extract_var($field_groups, $j);
+			$field_group = pdc_extract_var($field_groups, $j);
 			
 			
 			// field group found, stop looking
@@ -1194,8 +1194,8 @@ class acf_field_clone extends acf_field {
 				
 			} else {
 				
-				$fields = acf_get_fields( $field_group );
-				$fields = acf_prepare_fields_for_import( $fields );
+				$fields = pdc_get_fields( $field_group );
+				$fields = pdc_prepare_fields_for_import( $fields );
 			
 			}
 			
@@ -1273,7 +1273,7 @@ class acf_field_clone extends acf_field {
 		
 		
 		// return
-		acf_send_ajax_results(array(
+		pdc_send_ajax_results(array(
 			'results'	=> $results,
 			'limit'		=> $limit
 		));
@@ -1282,7 +1282,7 @@ class acf_field_clone extends acf_field {
 	
 	
 	/*
-	*  acf_prepare_field
+	*  pdc_prepare_field
 	*
 	*  This function will restore a field's key ready for input
 	*
@@ -1294,7 +1294,7 @@ class acf_field_clone extends acf_field {
 	*  @return	$field
 	*/
 	
-	function acf_prepare_field( $field ) {
+	function pdc_prepare_field( $field ) {
 		
 		// bail ealry if not cloned
 		if( empty($field['__key']) ) return $field;
@@ -1346,7 +1346,7 @@ class acf_field_clone extends acf_field {
 			
 			
 			// validate
-			acf_validate_value( $value[ $k ], $sub_field, "{$input}[{$k}]" );
+			pdc_validate_value( $value[ $k ], $sub_field, "{$input}[{$k}]" );
 			
 		}
 		
@@ -1360,7 +1360,7 @@ class acf_field_clone extends acf_field {
 
 
 // initialize
-acf_register_field_type( new acf_field_clone() );
+pdc_register_field_type( new pdc_field_clone() );
 
 endif; // class_exists check
 

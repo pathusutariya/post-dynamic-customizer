@@ -4,7 +4,7 @@
 extract($args);
 		
 ?>
-<div class="wrap acf-settings-wrap">
+<div class="wrap pdc-settings-wrap">
 	
 	<h1><?php echo $page['page_title']; ?></h1>
 	
@@ -13,7 +13,7 @@ extract($args);
 		<?php 
 		
 		// render post data
-		acf_form_data(array( 
+		pdc_form_data(array( 
 			'post_id'	=> $page['post_id'], 
 			'nonce'		=> 'options',
 		));
@@ -29,13 +29,13 @@ extract($args);
 				
 				<div id="postbox-container-1" class="postbox-container">
 					
-					<?php do_meta_boxes('acf_options_page', 'side', null); ?>
+					<?php do_meta_boxes('pdc_options_page', 'side', null); ?>
 						
 				</div>
 				
 				<div id="postbox-container-2" class="postbox-container">
 					
-					<?php do_meta_boxes('acf_options_page', 'normal', null); ?>
+					<?php do_meta_boxes('pdc_options_page', 'normal', null); ?>
 					
 				</div>
 			

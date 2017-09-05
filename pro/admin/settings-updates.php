@@ -134,7 +134,7 @@ class pdc_settings_updates {
 	/*
 	*  admin_menu
 	*
-	*  This function will add the ACF menu item to the WP admin
+	*  This function will add the pdc menu item to the WP admin
 	*
 	*  @type	action (admin_menu)
 	*  @date	28/09/13
@@ -295,7 +295,7 @@ class pdc_settings_updates {
 		if( $response['status'] == 1 ) {
 			
 			// update license
-			acf_pro_update_license( $response['license'] );
+			pdc_pro_update_license( $response['license'] );
 			
 			
 			// show message
@@ -327,7 +327,7 @@ class pdc_settings_updates {
 	function deactivate_pro_licence() {
 		
 		// vars
-		$license = acf_pro_get_license_key();
+		$license = pdc_pro_get_license_key();
 		
 		
 		// bail early if no key
@@ -336,13 +336,13 @@ class pdc_settings_updates {
 		
 		// connect
 		$post = array(
-			'acf_license'	=> $license,
+			'pdc_license'	=> $license,
 			'wp_url'		=> home_url(),
 		);
 		
 		
 		// connect
-		$response = acf_updates()->request('v2/plugins/deactivate?p=pro', $post);
+		$response = pdc_updates()->request('v2/plugins/deactivate?p=pro', $post);
 		
 		
 		// error
@@ -354,7 +354,7 @@ class pdc_settings_updates {
 		
 		
 		// clear DB
-		acf_pro_update_license('');
+		pdc_pro_update_license('');
 		
 		
 		// success
@@ -389,7 +389,7 @@ class pdc_settings_updates {
 	function html() {
 		
 		// load view
-		acf_pro_get_view('settings-updates', $this->view);
+		pdc_pro_get_view('settings-updates', $this->view);
 		
 	}
 	
@@ -397,7 +397,7 @@ class pdc_settings_updates {
 
 
 // initialize
-new acf_settings_updates();
+new pdc_settings_updates();
 
 endif; // class_exists check
 

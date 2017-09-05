@@ -1,19 +1,19 @@
 <?php
 
 /*
-*  ACF Repeater Field Class
+*  pdc Repeater Field Class
 *
 *  All the logic for this field type
 *
-*  @class 		acf_field_repeater
-*  @extends		acf_field
-*  @package		ACF
+*  @class 		pdc_field_repeater
+*  @extends		pdc_field
+*  @package		pdc
 *  @subpackage	Fields
 */
 
-if( ! class_exists('acf_field_repeater') ) :
+if( ! class_exists('pdc_field_repeater') ) :
 
-class acf_field_repeater extends acf_field {
+class pdc_field_repeater extends pdc_field {
 	
 	
 	/*
@@ -33,7 +33,7 @@ class acf_field_repeater extends acf_field {
 		
 		// vars
 		$this->name = 'repeater';
-		$this->label = __("Repeater",'acf');
+		$this->label = __("Repeater",'pdc');
 		$this->category = 'layout';
 		$this->defaults = array(
 			'sub_fields'	=> array(),
@@ -44,19 +44,19 @@ class acf_field_repeater extends acf_field {
 			'collapsed'		=> ''
 		);
 		$this->l10n = array(
-			'min'			=>	__("Minimum rows reached ({min} rows)",'acf'),
-			'max'			=>	__("Maximum rows reached ({max} rows)",'acf'),
+			'min'			=>	__("Minimum rows reached ({min} rows)",'pdc'),
+			'max'			=>	__("Maximum rows reached ({max} rows)",'pdc'),
 		);
 		
 		
 		// field filters
-		$this->add_field_filter('acf/get_sub_field', 			array($this, 'get_sub_field'), 10, 3);
-		$this->add_field_filter('acf/prepare_field_for_export', array($this, 'prepare_field_for_export'));
-		$this->add_field_filter('acf/prepare_field_for_import', array($this, 'prepare_field_for_import'));
+		$this->add_field_filter('pdc/get_sub_field', 			array($this, 'get_sub_field'), 10, 3);
+		$this->add_field_filter('pdc/prepare_field_for_export', array($this, 'prepare_field_for_export'));
+		$this->add_field_filter('pdc/prepare_field_for_import', array($this, 'prepare_field_for_import'));
 		
 		
 		// filters
-		$this->add_filter('acf/validate_field',					array($this, 'validate_any_field'));
+		$this->add_filter('pdc/validate_field',					array($this, 'validate_any_field'));
 		
 		
 		// do not delete!
@@ -86,7 +86,7 @@ class acf_field_repeater extends acf_field {
 		
 		
 		// vars
-		$sub_fields = acf_get_fields( $field );
+		$sub_fields = pdc_get_fields( $field );
 		
 		
 		// append
@@ -175,7 +175,7 @@ class acf_field_repeater extends acf_field {
 		
 		// div
 		$div = array(
-			'class' 		=> 'acf-repeater',
+			'class' 		=> 'pdc-repeater',
 			'data-min' 		=> $field['min'],
 			'data-max'		=> $field['max']
 		);
@@ -223,11 +223,11 @@ class acf_field_repeater extends acf_field {
 		
 		
 		// setup values for row clone
-		$value['acfcloneindex'] = array();
+		$value['pdccloneindex'] = array();
 		
 		
 		// button label
-		if( $field['button_label'] === '' ) $field['button_label'] = __('Add Row', 'acf');
+		if( $field['button_label'] === '' ) $field['button_label'] = __('Add Row', 'pdc');
 		
 		
 		// field wrap
@@ -238,14 +238,14 @@ class acf_field_repeater extends acf_field {
 		if( $field['layout'] == 'row' ) {
 		
 			$el = 'div';
-			$before_fields = '<td class="acf-fields -left">';
+			$before_fields = '<td class="pdc-fields -left">';
 			$after_fields = '</td>';
 			
 		} elseif( $field['layout'] == 'block' ) {
 		
 			$el = 'div';
 			
-			$before_fields = '<td class="acf-fields">';
+			$before_fields = '<td class="pdc-fields">';
 			$after_fields = '</td>';
 			
 		}
@@ -256,7 +256,7 @@ class acf_field_repeater extends acf_field {
 		
 		
 		// hidden input
-		acf_hidden_input(array(
+		pdc_hidden_input(array(
 			'type'	=> 'hidden',
 			'name'	=> $field['name'],
 		));
@@ -284,20 +284,20 @@ class acf_field_repeater extends acf_field {
 		}
 		
 ?>
-<div <?php acf_esc_attr_e($div); ?>>
-<table class="acf-table">
+<div <?php pdc_esc_attr_e($div); ?>>
+<table class="pdc-table">
 	
 	<?php if( $field['layout'] == 'table' ): ?>
 		<thead>
 			<tr>
 				<?php if( $show_order ): ?>
-					<th class="acf-row-handle"></th>
+					<th class="pdc-row-handle"></th>
 				<?php endif; ?>
 				
 				<?php foreach( $sub_fields as $sub_field ): 
 					
 					// prepare field (allow sub fields to be removed)
-					$sub_field = acf_prepare_field($sub_field);
+					$sub_field = pdc_prepare_field($sub_field);
 					
 					
 					// bail ealry if no field
@@ -306,7 +306,7 @@ class acf_field_repeater extends acf_field {
 					
 					// vars
 					$atts = array();
-					$atts['class'] = 'acf-th';
+					$atts['class'] = 'pdc-th';
 					$atts['data-name'] = $sub_field['_name'];
 					$atts['data-type'] = $sub_field['type'];
 					$atts['data-key'] = $sub_field['key'];
@@ -321,8 +321,8 @@ class acf_field_repeater extends acf_field {
 					}
 					
 					?>
-					<th <?php echo acf_esc_attr( $atts ); ?>>
-						<?php echo acf_get_field_label( $sub_field ); ?>
+					<th <?php echo pdc_esc_attr( $atts ); ?>>
+						<?php echo pdc_get_field_label( $sub_field ); ?>
 						<?php if( $sub_field['instructions'] ): ?>
 							<p class="description"><?php echo $sub_field['instructions']; ?></p>
 						<?php endif; ?>
@@ -330,7 +330,7 @@ class acf_field_repeater extends acf_field {
 				<?php endforeach; ?>
 
 				<?php if( $show_remove ): ?>
-					<th class="acf-row-handle"></th>
+					<th class="pdc-row-handle"></th>
 				<?php endif; ?>
 			</tr>
 		</thead>
@@ -339,13 +339,13 @@ class acf_field_repeater extends acf_field {
 	<tbody>
 		<?php foreach( $value as $i => $row ): 
 			
-			$row_class = 'acf-row';
+			$row_class = 'pdc-row';
 			
-			if( $i === 'acfcloneindex' ) {
+			if( $i === 'pdccloneindex' ) {
 				
-				$row_class .= ' acf-clone';
+				$row_class .= ' pdc-clone';
 				
-			} elseif( acf_is_row_collapsed($field['key'], $i) ) {
+			} elseif( pdc_is_row_collapsed($field['key'], $i) ) {
 				
 				$row_class .= ' -collapsed';
 				
@@ -355,9 +355,9 @@ class acf_field_repeater extends acf_field {
 			<tr class="<?php echo $row_class; ?>" data-id="<?php echo $i; ?>">
 				
 				<?php if( $show_order ): ?>
-					<td class="acf-row-handle order" title="<?php _e('Drag to reorder','acf'); ?>">
+					<td class="pdc-row-handle order" title="<?php _e('Drag to reorder','pdc'); ?>">
 						<?php if( $field['collapsed'] ): ?>
-						<a class="acf-icon -collapse small" href="#" data-event="collapse-row" title="<?php _e('Click to toggle','acf'); ?>"></a>
+						<a class="pdc-icon -collapse small" href="#" data-event="collapse-row" title="<?php _e('Click to toggle','pdc'); ?>"></a>
 						<?php endif; ?>
 						<span><?php echo intval($i) + 1; ?></span>
 					</td>
@@ -368,7 +368,7 @@ class acf_field_repeater extends acf_field {
 				<?php foreach( $sub_fields as $sub_field ): 
 					
 					// prevent repeater field from creating multiple conditional logic items for each row
-					if( $i !== 'acfcloneindex' ) {
+					if( $i !== 'pdccloneindex' ) {
 					
 						$sub_field['conditional_logic'] = 0;
 						
@@ -394,16 +394,16 @@ class acf_field_repeater extends acf_field {
 					
 					
 					// render input
-					acf_render_field_wrap( $sub_field, $el ); ?>
+					pdc_render_field_wrap( $sub_field, $el ); ?>
 					
 				<?php endforeach; ?>
 				
 				<?php echo $after_fields; ?>
 				
 				<?php if( $show_remove ): ?>
-					<td class="acf-row-handle remove">
-						<a class="acf-icon -plus small" href="#" data-event="add-row" title="<?php _e('Add row','acf'); ?>"></a>
-						<a class="acf-icon -minus small" href="#" data-event="remove-row" title="<?php _e('Remove row','acf'); ?>"></a>
+					<td class="pdc-row-handle remove">
+						<a class="pdc-icon -plus small" href="#" data-event="add-row" title="<?php _e('Add row','pdc'); ?>"></a>
+						<a class="pdc-icon -minus small" href="#" data-event="remove-row" title="<?php _e('Remove row','pdc'); ?>"></a>
 					</td>
 				<?php endif; ?>
 				
@@ -413,9 +413,9 @@ class acf_field_repeater extends acf_field {
 </table>
 <?php if( $show_add ): ?>
 	
-	<ul class="acf-actions acf-hl">
+	<ul class="pdc-actions pdc-hl">
 		<li>
-			<a class="acf-button button button-primary" href="#" data-event="add-row"><?php echo $field['button_label']; ?></a>
+			<a class="pdc-button button button-primary" href="#" data-event="add-row"><?php echo $field['button_label']; ?></a>
 		</li>
 	</ul>
 			
@@ -448,15 +448,15 @@ class acf_field_repeater extends acf_field {
 		);
 		
 		
-		?><tr class="acf-field acf-field-setting-sub_fields" data-setting="repeater" data-name="sub_fields">
-			<td class="acf-label">
-				<label><?php _e("Sub Fields",'acf'); ?></label>
+		?><tr class="pdc-field pdc-field-setting-sub_fields" data-setting="repeater" data-name="sub_fields">
+			<td class="pdc-label">
+				<label><?php _e("Sub Fields",'pdc'); ?></label>
 				<p class="description"></p>		
 			</td>
-			<td class="acf-input">
+			<td class="pdc-input">
 				<?php 
 				
-				acf_get_view('field-group-fields', $args);
+				pdc_get_view('field-group-fields', $args);
 				
 				?>
 			</td>
@@ -479,9 +479,9 @@ class acf_field_repeater extends acf_field {
 		}
 		
 		
-		acf_render_field_setting( $field, array(
-			'label'			=> __('Collapsed','acf'),
-			'instructions'	=> __('Select a sub field to show when row is collapsed','acf'),
+		pdc_render_field_setting( $field, array(
+			'label'			=> __('Collapsed','pdc'),
+			'instructions'	=> __('Select a sub field to show when row is collapsed','pdc'),
 			'type'			=> 'select',
 			'name'			=> 'collapsed',
 			'allow_null'	=> 1,
@@ -490,8 +490,8 @@ class acf_field_repeater extends acf_field {
 		
 		
 		// min
-		acf_render_field_setting( $field, array(
-			'label'			=> __('Minimum Rows','acf'),
+		pdc_render_field_setting( $field, array(
+			'label'			=> __('Minimum Rows','pdc'),
 			'instructions'	=> '',
 			'type'			=> 'number',
 			'name'			=> 'min',
@@ -500,8 +500,8 @@ class acf_field_repeater extends acf_field {
 		
 		
 		// max
-		acf_render_field_setting( $field, array(
-			'label'			=> __('Maximum Rows','acf'),
+		pdc_render_field_setting( $field, array(
+			'label'			=> __('Maximum Rows','pdc'),
 			'instructions'	=> '',
 			'type'			=> 'number',
 			'name'			=> 'max',
@@ -510,28 +510,28 @@ class acf_field_repeater extends acf_field {
 		
 		
 		// layout
-		acf_render_field_setting( $field, array(
-			'label'			=> __('Layout','acf'),
+		pdc_render_field_setting( $field, array(
+			'label'			=> __('Layout','pdc'),
 			'instructions'	=> '',
-			'class'			=> 'acf-repeater-layout',
+			'class'			=> 'pdc-repeater-layout',
 			'type'			=> 'radio',
 			'name'			=> 'layout',
 			'layout'		=> 'horizontal',
 			'choices'		=> array(
-				'table'			=> __('Table','acf'),
-				'block'			=> __('Block','acf'),
-				'row'			=> __('Row','acf')
+				'table'			=> __('Table','pdc'),
+				'block'			=> __('Block','pdc'),
+				'row'			=> __('Row','pdc')
 			)
 		));
 		
 		
 		// button_label
-		acf_render_field_setting( $field, array(
-			'label'			=> __('Button Label','acf'),
+		pdc_render_field_setting( $field, array(
+			'label'			=> __('Button Label','pdc'),
 			'instructions'	=> '',
 			'type'			=> 'text',
 			'name'			=> 'button_label',
-			'placeholder'	=> __('Add Row','acf')
+			'placeholder'	=> __('Add Row','pdc')
 		));
 		
 	}
@@ -586,7 +586,7 @@ class acf_field_repeater extends acf_field {
 				
 				
 				// bail ealry if no name (tab)
-				if( acf_is_empty($sub_field['name']) ) continue;
+				if( pdc_is_empty($sub_field['name']) ) continue;
 				
 				
 				// update $sub_field name
@@ -594,7 +594,7 @@ class acf_field_repeater extends acf_field {
 				
 				
 				// get value
-				$sub_value = acf_get_value( $post_id, $sub_field );
+				$sub_value = pdc_get_value( $post_id, $sub_field );
 			
 			
 				// add value
@@ -652,11 +652,11 @@ class acf_field_repeater extends acf_field {
 				
 				
 				// bail ealry if no name (tab)
-				if( acf_is_empty($sub_field['name']) ) continue;
+				if( pdc_is_empty($sub_field['name']) ) continue;
 				
 				
 				// extract value
-				$sub_value = acf_extract_var( $value[ $i ], $sub_field['key'] );
+				$sub_value = pdc_extract_var( $value[ $i ], $sub_field['key'] );
 				
 				
 				// update $sub_field name
@@ -664,7 +664,7 @@ class acf_field_repeater extends acf_field {
 				
 				
 				// format value
-				$sub_value = acf_format_value( $sub_value, $post_id, $sub_field );
+				$sub_value = pdc_format_value( $sub_value, $post_id, $sub_field );
 				
 				
 				// append to $row
@@ -696,10 +696,10 @@ class acf_field_repeater extends acf_field {
 	
 	function validate_value( $valid, $value, $field, $input ){
 		
-		// remove acfcloneindex
-		if( isset($value['acfcloneindex']) ) {
+		// remove pdccloneindex
+		if( isset($value['pdccloneindex']) ) {
 		
-			unset($value['acfcloneindex']);
+			unset($value['pdccloneindex']);
 			
 		}
 		
@@ -734,7 +734,7 @@ class acf_field_repeater extends acf_field {
 					
 					
 					// validate
-					acf_validate_value( $value[ $i ][ $k ], $sub_field, "{$input}[{$i}][{$k}]" );
+					pdc_validate_value( $value[ $i ][ $k ], $sub_field, "{$input}[{$i}][{$k}]" );
 				}
 				
 			}
@@ -801,7 +801,7 @@ class acf_field_repeater extends acf_field {
 						
 			
 			// update field
-			acf_update_value( $value, $post_id, $sub_field );
+			pdc_update_value( $value, $post_id, $sub_field );
 				
 		}
 		
@@ -841,7 +841,7 @@ class acf_field_repeater extends acf_field {
 			
 			
 			// delete value
-			acf_delete_value( $post_id, $sub_field );
+			pdc_delete_value( $post_id, $sub_field );
 			
 		}
 		
@@ -876,16 +876,16 @@ class acf_field_repeater extends acf_field {
 		
 		// vars
 		$new_value = 0;
-		$old_value = (int) acf_get_metadata( $post_id, $field['name'] );
+		$old_value = (int) pdc_get_metadata( $post_id, $field['name'] );
 		
 		
 		// update sub fields
 		if( !empty($value) ) { $i = -1;
 			
-			// remove acfcloneindex
-			if( isset($value['acfcloneindex']) ) {
+			// remove pdccloneindex
+			if( isset($value['pdccloneindex']) ) {
 			
-				unset($value['acfcloneindex']);
+				unset($value['pdccloneindex']);
 				
 			}
 			
@@ -946,7 +946,7 @@ class acf_field_repeater extends acf_field {
 	function delete_value( $post_id, $key, $field ) {
 		
 		// get old value (db only)
-		$old_value = (int) acf_get_metadata( $post_id, $field['name'] );
+		$old_value = (int) pdc_get_metadata( $post_id, $field['name'] );
 		
 		
 		// bail early if no rows or no sub fields
@@ -985,7 +985,7 @@ class acf_field_repeater extends acf_field {
 		// loop through sub fields
 		foreach( $field['sub_fields'] as $sub_field ) {
 		
-			acf_delete_field( $sub_field['ID'] );
+			pdc_delete_field( $sub_field['ID'] );
 			
 		}
 		
@@ -1002,7 +1002,7 @@ class acf_field_repeater extends acf_field {
 	*  @date	23/01/13
 	*
 	*  @param	$field - the field array holding all the field options
-	*  @param	$post_id - the field group ID (post_type = acf)
+	*  @param	$post_id - the field group ID (post_type = pdc)
 	*
 	*  @return	$field - the modified field
 	*/
@@ -1035,15 +1035,15 @@ class acf_field_repeater extends acf_field {
 	function duplicate_field( $field ) {
 		
 		// get sub fields
-		$sub_fields = acf_extract_var( $field, 'sub_fields' );
+		$sub_fields = pdc_extract_var( $field, 'sub_fields' );
 		
 		
 		// save field to get ID
-		$field = acf_update_field( $field );
+		$field = pdc_update_field( $field );
 		
 		
 		// duplicate sub fields
-		acf_duplicate_fields( $sub_fields, $field['ID'] );
+		pdc_duplicate_fields( $sub_fields, $field['ID'] );
 		
 						
 		// return		
@@ -1067,7 +1067,7 @@ class acf_field_repeater extends acf_field {
 	function translate_field( $field ) {
 		
 		// translate
-		$field['button_label'] = acf_translate( $field['button_label'] );
+		$field['button_label'] = pdc_translate( $field['button_label'] );
 		
 		
 		// return
@@ -1096,7 +1096,7 @@ class acf_field_repeater extends acf_field {
 		
 		
 		// prepare
-		$field['sub_fields'] = acf_prepare_fields_for_export( $field['sub_fields'] );
+		$field['sub_fields'] = pdc_prepare_fields_for_export( $field['sub_fields'] );
 		
 		
 		// return
@@ -1129,7 +1129,7 @@ class acf_field_repeater extends acf_field {
 		
 		
 		// extract sub fields
-		$sub_fields = acf_extract_var( $field, 'sub_fields');
+		$sub_fields = pdc_extract_var( $field, 'sub_fields');
 		
 		
 		// reset field setting
@@ -1140,7 +1140,7 @@ class acf_field_repeater extends acf_field {
 		foreach( array_keys($sub_fields) as $i ) {
 			
 			// extract sub field
-			$sub_field = acf_extract_var( $sub_fields, $i );
+			$sub_field = pdc_extract_var( $sub_fields, $i );
 					
 			
 			// attributes
@@ -1187,7 +1187,7 @@ class acf_field_repeater extends acf_field {
 		// width has changed
 		if( isset($field['column_width']) ) {
 			
-			$field['wrapper']['width'] = acf_extract_var($field, 'column_width');
+			$field['wrapper']['width'] = pdc_extract_var($field, 'column_width');
 			
 		}
 		
@@ -1201,7 +1201,7 @@ class acf_field_repeater extends acf_field {
 
 
 // initialize
-acf_register_field_type( new acf_field_repeater() );
+pdc_register_field_type( new pdc_field_repeater() );
 
 endif; // class_exists check
 

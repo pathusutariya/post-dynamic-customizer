@@ -1,7 +1,7 @@
 <?php 
 
 /*
-*  acf_get_valid_options_page
+*  pdc_get_valid_options_page
 *
 *  description
 *
@@ -13,17 +13,17 @@
 *  @return	$post_id (int)
 */
 
-if( ! function_exists('acf_get_valid_options_page') ):
+if( ! function_exists('pdc_get_valid_options_page') ):
 
-function acf_get_valid_options_page( $page = '' ) {
+function pdc_get_valid_options_page( $page = '' ) {
 	
 	// allow for string
 	if( empty($page) ) {
 		
 		$page = array(
-			'page_title' 	=> __('Options','acf'),
-			'menu_title'	=> __('Options','acf'),
-			'menu_slug' 	=> 'acf-options',
+			'page_title' 	=> __('Options','pdc'),
+			'menu_title'	=> __('Options','pdc'),
+			'menu_slug' 	=> 'pdc-options',
 		);
 			
 	} elseif( is_string($page) ) {
@@ -49,11 +49,11 @@ function acf_get_valid_options_page( $page = '' ) {
 		'redirect'		=> true,
 		'post_id'		=> 'options',
 		'autoload'		=> false,
-		'update_button'	=> __('Update', 'acf')
+		'update_button'	=> __('Update', 'pdc')
 	));
 	
 	
-	// ACF4 compatibility
+	// pdc4 compatibility
 	$migrate = array(
 		'title' 	=> 'page_title',
 		'menu'		=> 'menu_title',
@@ -65,7 +65,7 @@ function acf_get_valid_options_page( $page = '' ) {
 		
 		if( !empty($page[ $old ]) ) {
 			
-			$page[ $new ] = acf_extract_var( $page, $old );
+			$page[ $new ] = pdc_extract_var( $page, $old );
 			
 		}
 		
@@ -83,7 +83,7 @@ function acf_get_valid_options_page( $page = '' ) {
 	// menu_slug
 	if( empty($page['menu_slug']) ) {
 	
-		$page['menu_slug'] = 'acf-options-' . sanitize_title( $page['menu_title'] );
+		$page['menu_slug'] = 'pdc-options-' . sanitize_title( $page['menu_title'] );
 		
 	}
 	
@@ -97,7 +97,7 @@ endif;
 
 
 /*
-*  acf_pro_get_option_page
+*  pdc_pro_get_option_page
 *
 *  description
 *
@@ -109,12 +109,12 @@ endif;
 *  @return	$post_id (int)
 */
 
-if( ! function_exists('acf_get_options_page') ):
+if( ! function_exists('pdc_get_options_page') ):
 
-function acf_get_options_page( $slug ) {
+function pdc_get_options_page( $slug ) {
 	
 	// bail early if page doens't exist
-	if( empty($GLOBALS['acf_options_pages'][ $slug ]) ) {
+	if( empty($GLOBALS['pdc_options_pages'][ $slug ]) ) {
 		
 		return false;
 		
@@ -122,11 +122,11 @@ function acf_get_options_page( $slug ) {
 	
 	
 	// vars
-	$page = $GLOBALS['acf_options_pages'][ $slug ];
+	$page = $GLOBALS['pdc_options_pages'][ $slug ];
 	
 					
 	// filter for 3rd party customization
-	$page = apply_filters('acf/get_options_page', $page, $slug);
+	$page = apply_filters('pdc/get_options_page', $page, $slug);
 	
 	
 	// return
@@ -138,7 +138,7 @@ endif;
 
 
 /*
-*  acf_pro_get_option_pages
+*  pdc_pro_get_option_pages
 *
 *  description
 *
@@ -150,16 +150,16 @@ endif;
 *  @return	$post_id (int)
 */
 
-if( ! function_exists('acf_get_options_pages') ):
+if( ! function_exists('pdc_get_options_pages') ):
 
-function acf_get_options_pages() {
+function pdc_get_options_pages() {
 	
 	// global
 	global $_wp_last_utility_menu;
 		
 		
 	// bail early if empty
-	if( empty($GLOBALS['acf_options_pages']) ) {
+	if( empty($GLOBALS['pdc_options_pages']) ) {
 		
 		return false;
 		
@@ -169,14 +169,14 @@ function acf_get_options_pages() {
 	// vars
 	$pages = array();
 	$redirects = array();
-	$slugs = array_keys($GLOBALS['acf_options_pages']);
+	$slugs = array_keys($GLOBALS['pdc_options_pages']);
 	
 	
 	// get pages
 	foreach( $slugs as $slug ) {
 	
 		// append
-		$pages[] = acf_get_options_page( $slug );
+		$pages[] = pdc_get_options_page( $slug );
 		
 	}
 	
@@ -258,7 +258,7 @@ endif;
 
 
 /*
-*  acf_update_options_page
+*  pdc_update_options_page
 *
 *  description
 *
@@ -270,9 +270,9 @@ endif;
 *  @return	$post_id (int)
 */
 
-if( ! function_exists('acf_update_options_page') ):
+if( ! function_exists('pdc_update_options_page') ):
 
-function acf_update_options_page( $data ) {
+function pdc_update_options_page( $data ) {
 	
 	// bail early if no menu_slug
 	if( empty($data['menu_slug']) ) {
@@ -286,7 +286,7 @@ function acf_update_options_page( $data ) {
 	
 	
 	// bail early if no page found
-	if( empty($GLOBALS['acf_options_pages'][ $slug ]) ) {
+	if( empty($GLOBALS['pdc_options_pages'][ $slug ]) ) {
 	
 		return false;
 		
@@ -294,7 +294,7 @@ function acf_update_options_page( $data ) {
 	
 	
 	// vars
-	$page = $GLOBALS['acf_options_pages'][ $slug ];
+	$page = $GLOBALS['pdc_options_pages'][ $slug ];
 	
 	
 	// merge in data
@@ -302,7 +302,7 @@ function acf_update_options_page( $data ) {
 	
 	
 	// update
-	$GLOBALS['acf_options_pages'][ $slug ] = $page;
+	$GLOBALS['pdc_options_pages'][ $slug ] = $page;
 	
 	
 	// return
@@ -314,7 +314,7 @@ endif;
 
 
 /*
-*  acf_add_options_page
+*  pdc_add_options_page
 *
 *  description
 *
@@ -326,32 +326,32 @@ endif;
 *  @return	$post_id (int)
 */
 
-if( ! function_exists('acf_add_options_page') ):
+if( ! function_exists('pdc_add_options_page') ):
 
-function acf_add_options_page( $page = '' ) {
+function pdc_add_options_page( $page = '' ) {
 	
 	// validate
-	$page = acf_get_valid_options_page( $page );
+	$page = pdc_get_valid_options_page( $page );
 	
 	
 	// instantiate globals
-	if( empty($GLOBALS['acf_options_pages']) ) {
+	if( empty($GLOBALS['pdc_options_pages']) ) {
 	
-		$GLOBALS['acf_options_pages'] = array();
+		$GLOBALS['pdc_options_pages'] = array();
 		
 	}
 	
 	
 	// update if already exists
-	if( acf_get_options_page($page['menu_slug']) ) {
+	if( pdc_get_options_page($page['menu_slug']) ) {
 		
-		return acf_update_options_page( $page );
+		return pdc_update_options_page( $page );
 		
 	}
 	
 	
 	// append
-	$GLOBALS['acf_options_pages'][ $page['menu_slug'] ] = $page;
+	$GLOBALS['pdc_options_pages'][ $page['menu_slug'] ] = $page;
 	
 	
 	// return
@@ -363,7 +363,7 @@ endif;
 
 
 /*
-*  acf_add_options_page
+*  pdc_add_options_page
 *
 *  description
 *
@@ -375,29 +375,29 @@ endif;
 *  @return	$post_id (int)
 */
 
-if( ! function_exists('acf_add_options_sub_page') ):
+if( ! function_exists('pdc_add_options_sub_page') ):
 
-function acf_add_options_sub_page( $page = '' ) {
+function pdc_add_options_sub_page( $page = '' ) {
 	
 	// validate
-	$page = acf_get_valid_options_page( $page );
+	$page = pdc_get_valid_options_page( $page );
 	
 	
 	// parent
 	if( !$page['parent_slug'] ) {
 		
 		// set parent slug
-		$page['parent_slug'] = 'acf-options';
+		$page['parent_slug'] = 'pdc-options';
 		
 	}
 	
 	
 	// create default parent if not yet exists
-	if( $page['parent_slug'] === 'acf-options' ) {
+	if( $page['parent_slug'] === 'pdc-options' ) {
 		
-		if( !acf_get_options_page('acf-options') ) {
+		if( !pdc_get_options_page('pdc-options') ) {
 			
-			acf_add_options_page();
+			pdc_add_options_page();
 			
 		}
 		
@@ -405,7 +405,7 @@ function acf_add_options_sub_page( $page = '' ) {
 		
 	
 	// return
-	return acf_add_options_page( $page );
+	return pdc_add_options_page( $page );
 	
 }
 
@@ -413,7 +413,7 @@ endif;
 
 
 /*
-*  acf_set_options_page_title
+*  pdc_set_options_page_title
 *
 *  This function is used to customize the options page admin menu title
 *
@@ -425,12 +425,12 @@ endif;
 *  @return	n/a
 */
 
-if( ! function_exists('acf_set_options_page_title') ):
+if( ! function_exists('pdc_set_options_page_title') ):
 
-function acf_set_options_page_title( $title = 'Options' ) {
+function pdc_set_options_page_title( $title = 'Options' ) {
 	
-	acf_update_options_page(array(
-		'menu_slug'		=> 'acf-options',
+	pdc_update_options_page(array(
+		'menu_slug'		=> 'pdc-options',
 		'page_title'	=> $title,
 		'menu_title'	=> $title
 	));
@@ -441,7 +441,7 @@ endif;
 
 
 /*
-*  acf_set_options_page_menu
+*  pdc_set_options_page_menu
 *
 *  This function is used to customize the options page admin menu name
 *
@@ -453,12 +453,12 @@ endif;
 *  @return	n/a
 */
 
-if( ! function_exists('acf_set_options_page_menu') ):
+if( ! function_exists('pdc_set_options_page_menu') ):
 
-function acf_set_options_page_menu( $title = 'Options' ) {
+function pdc_set_options_page_menu( $title = 'Options' ) {
 	
-	acf_update_options_page(array(
-		'menu_slug'		=> 'acf-options',
+	pdc_update_options_page(array(
+		'menu_slug'		=> 'pdc-options',
 		'menu_title'	=> $title
 	));
 	
@@ -468,7 +468,7 @@ endif;
 
 
 /*
-*  acf_set_options_page_capability
+*  pdc_set_options_page_capability
 *
 *  This function is used to customize the options page capability. Defaults to 'edit_posts'
 *
@@ -480,12 +480,12 @@ endif;
 *  @return	n/a
 */
 
-if( ! function_exists('acf_set_options_page_capability') ):
+if( ! function_exists('pdc_set_options_page_capability') ):
 
-function acf_set_options_page_capability( $capability = 'edit_posts' ) {
+function pdc_set_options_page_capability( $capability = 'edit_posts' ) {
 	
-	acf_update_options_page(array(
-		'menu_slug'		=> 'acf-options',
+	pdc_update_options_page(array(
+		'menu_slug'		=> 'pdc-options',
 		'capability'	=> $capability
 	));
 	
@@ -497,7 +497,7 @@ endif;
 /*
 *  register_options_page()
 *
-*  This is an old function which is now referencing the new 'acf_add_options_sub_page' function
+*  This is an old function which is now referencing the new 'pdc_add_options_sub_page' function
 *
 *  @type	function
 *  @since	3.0.0
@@ -511,7 +511,7 @@ if( ! function_exists('register_options_page') ):
 
 function register_options_page( $title = false ) {
 
-	acf_add_options_sub_page( $title );
+	pdc_add_options_sub_page( $title );
 	
 }
 

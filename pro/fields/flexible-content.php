@@ -1,19 +1,19 @@
 <?php
 
 /*
-*  ACF Flexible Content Field Class
+*  pdc Flexible Content Field Class
 *
 *  All the logic for this field type
 *
-*  @class 		acf_field_flexible_content
-*  @extends		acf_field
-*  @package		ACF
+*  @class 		pdc_field_flexible_content
+*  @extends		pdc_field
+*  @package		pdc
 *  @subpackage	Fields
 */
 
-if( ! class_exists('acf_field_flexible_content') ) :
+if( ! class_exists('pdc_field_flexible_content') ) :
 
-class acf_field_flexible_content extends acf_field {
+class pdc_field_flexible_content extends pdc_field {
 	
 	
 	/*
@@ -33,43 +33,43 @@ class acf_field_flexible_content extends acf_field {
 		
 		// vars
 		$this->name = 'flexible_content';
-		$this->label = __("Flexible Content",'acf');
+		$this->label = __("Flexible Content",'pdc');
 		$this->category = 'layout';
 		$this->defaults = array(
 			'layouts'		=> array(),
 			'min'			=> '',
 			'max'			=> '',
-			'button_label'	=> __("Add Row",'acf'),
+			'button_label'	=> __("Add Row",'pdc'),
 		);
 		$this->l10n = array(
-			'layout' 		=> __("layout", 'acf'),
-			'layouts'		=> __("layouts", 'acf'),
-			'remove'		=> __("remove {layout}?", 'acf'),
-			'min'			=> __("This field requires at least {min} {identifier}",'acf'),
-			'max'			=> __("This field has a limit of {max} {identifier}",'acf'),
-			'min_layout'	=> __("This field requires at least {min} {label} {identifier}",'acf'),
-			'max_layout'	=> __("Maximum {label} limit reached ({max} {identifier})",'acf'),
-			'available'		=> __("{available} {label} {identifier} available (max {max})",'acf'),
-			'required'		=> __("{required} {label} {identifier} required (min {min})",'acf'),
-			'layout_warning'	=> __('Flexible Content requires at least 1 layout','acf')
+			'layout' 		=> __("layout", 'pdc'),
+			'layouts'		=> __("layouts", 'pdc'),
+			'remove'		=> __("remove {layout}?", 'pdc'),
+			'min'			=> __("This field requires at least {min} {identifier}",'pdc'),
+			'max'			=> __("This field has a limit of {max} {identifier}",'pdc'),
+			'min_layout'	=> __("This field requires at least {min} {label} {identifier}",'pdc'),
+			'max_layout'	=> __("Maximum {label} limit reached ({max} {identifier})",'pdc'),
+			'available'		=> __("{available} {label} {identifier} available (max {max})",'pdc'),
+			'required'		=> __("{required} {label} {identifier} required (min {min})",'pdc'),
+			'layout_warning'	=> __('Flexible Content requires at least 1 layout','pdc')
 		);		
 		
 		
 		// ajax
-		$this->add_action('wp_ajax_acf/fields/flexible_content/layout_title',			array($this, 'ajax_layout_title'));
-		$this->add_action('wp_ajax_nopriv_acf/fields/flexible_content/layout_title',	array($this, 'ajax_layout_title'));
+		$this->add_action('wp_ajax_pdc/fields/flexible_content/layout_title',			array($this, 'ajax_layout_title'));
+		$this->add_action('wp_ajax_nopriv_pdc/fields/flexible_content/layout_title',	array($this, 'ajax_layout_title'));
 		
 		
 		// filters
-		$this->add_filter('acf/prepare_field_for_export',	array($this, 'prepare_any_field_for_export'));
-		$this->add_filter('acf/clone_field', 				array($this, 'clone_any_field'), 10, 2);
-		$this->add_filter('acf/validate_field',					array($this, 'validate_any_field'));
+		$this->add_filter('pdc/prepare_field_for_export',	array($this, 'prepare_any_field_for_export'));
+		$this->add_filter('pdc/clone_field', 				array($this, 'clone_any_field'), 10, 2);
+		$this->add_filter('pdc/validate_field',					array($this, 'validate_any_field'));
 		
 		
 		// field filters
-		$this->add_field_filter('acf/get_sub_field', 			array($this, 'get_sub_field'), 10, 3);
-		$this->add_field_filter('acf/prepare_field_for_export', array($this, 'prepare_field_for_export'));
-		$this->add_field_filter('acf/prepare_field_for_import', array($this, 'prepare_field_for_import'));
+		$this->add_field_filter('pdc/get_sub_field', 			array($this, 'get_sub_field'), 10, 3);
+		$this->add_field_filter('pdc/prepare_field_for_export', array($this, 'prepare_field_for_export'));
+		$this->add_field_filter('pdc/prepare_field_for_import', array($this, 'prepare_field_for_import'));
 		
 		
 		// do not delete!
@@ -135,14 +135,14 @@ class acf_field_flexible_content extends acf_field {
 		
 		
 		// vars
-		$sub_fields = acf_get_fields($field);
+		$sub_fields = pdc_get_fields($field);
 		
 		
 		// loop through layouts, sub fields and swap out the field key with the real field
 		foreach( array_keys($field['layouts']) as $i ) {
 			
 			// extract layout
-			$layout = acf_extract_var( $field['layouts'], $i );
+			$layout = pdc_extract_var( $field['layouts'], $i );
 			
 			
 			// validate layout
@@ -166,7 +166,7 @@ class acf_field_flexible_content extends acf_field {
 					// append sub field to layout, 
 					if( $sub_fields[ $k ]['parent_layout'] == $layout['key'] ) {
 					
-						$layout['sub_fields'][] = acf_extract_var( $sub_fields, $k );
+						$layout['sub_fields'][] = pdc_extract_var( $sub_fields, $k );
 						
 					}
 					
@@ -277,18 +277,18 @@ class acf_field_flexible_content extends acf_field {
 		
 		
 		// hidden input
-		acf_hidden_input(array(
+		pdc_hidden_input(array(
 			'type'	=> 'hidden',
 			'name'	=> $field['name'],
 		));
 		
 		
 		// no value message
-		$no_value_message = __('Click the "%s" button below to start creating your layout','acf');
-		$no_value_message = apply_filters('acf/fields/flexible_content/no_value_message', $no_value_message, $field);
+		$no_value_message = __('Click the "%s" button below to start creating your layout','pdc');
+		$no_value_message = apply_filters('pdc/fields/flexible_content/no_value_message', $no_value_message, $field);
 
 ?>
-<div <?php acf_esc_attr_e(array( 'class' => 'acf-flexible-content', 'data-min' => $field['min'], 'data-max'	=> $field['max'] )); ?>>
+<div <?php pdc_esc_attr_e(array( 'class' => 'pdc-flexible-content', 'data-min' => $field['min'], 'data-max'	=> $field['max'] )); ?>>
 	
 	<div class="no-value-message" <?php if( $field['value'] ){ echo 'style="display:none;"'; } ?>>
 		<?php printf( $no_value_message, $field['button_label'] ); ?>
@@ -296,7 +296,7 @@ class acf_field_flexible_content extends acf_field {
 	
 	<div class="clones">
 		<?php foreach( $layouts as $layout ): ?>
-			<?php $this->render_layout( $field, $layout, 'acfcloneindex', array() ); ?>
+			<?php $this->render_layout( $field, $layout, 'pdccloneindex', array() ); ?>
 		<?php endforeach; ?>
 	</div>
 	
@@ -306,27 +306,27 @@ class acf_field_flexible_content extends acf_field {
 				<?php 
 				
 				// validate
-				if( empty($layouts[ $value['acf_fc_layout'] ]) ) {
+				if( empty($layouts[ $value['pdc_fc_layout'] ]) ) {
 				
 					continue;
 					
 				}
 
-				$this->render_layout( $field, $layouts[ $value['acf_fc_layout'] ], $i, $value );
+				$this->render_layout( $field, $layouts[ $value['pdc_fc_layout'] ], $i, $value );
 				
 				?>
 			<?php endforeach; ?>
 		<?php endif; ?>
 	</div>
 	
-	<ul class="acf-actions acf-hl">
+	<ul class="pdc-actions pdc-hl">
 		<li>
-			<a class="acf-button button button-primary" href="#" data-event="add-layout"><?php echo $field['button_label']; ?></a>
+			<a class="pdc-button button button-primary" href="#" data-event="add-layout"><?php echo $field['button_label']; ?></a>
 		</li>
 	</ul>
 	
 	<script type="text-html" class="tmpl-popup"><?php 
-		?><div class="acf-fc-popup">
+		?><div class="pdc-fc-popup">
 			<ul>
 				<?php foreach( $layouts as $layout ): 
 					
@@ -338,7 +338,7 @@ class acf_field_flexible_content extends acf_field {
 					
 					?>
 					<li>
-						<a href="#" <?php acf_esc_attr_e( $atts ); ?>><?php echo $layout['label']; ?></a>
+						<a href="#" <?php pdc_esc_attr_e( $atts ); ?>><?php echo $layout['label']; ?></a>
 					</li>
 				<?php endforeach; ?>
 			</ul>
@@ -383,7 +383,7 @@ class acf_field_flexible_content extends acf_field {
 		
 				
 		// collapsed class
-		if( acf_is_row_collapsed($field['key'], $i) ) {
+		if( pdc_is_row_collapsed($field['key'], $i) ) {
 			
 			$div['class'] .= ' -collapsed';
 			
@@ -397,7 +397,7 @@ class acf_field_flexible_content extends acf_field {
 			
 		} else {
 			
-			$div['class'] .= ' acf-clone';
+			$div['class'] .= ' pdc-clone';
 			
 		}
 		
@@ -418,31 +418,31 @@ class acf_field_flexible_content extends acf_field {
 		reset_rows();
 		
 ?>
-<div <?php echo acf_esc_attr($div); ?>>
+<div <?php echo pdc_esc_attr($div); ?>>
 			
-	<div class="acf-hidden">
-		<?php acf_hidden_input(array( 'name' => $prefix.'[acf_fc_layout]', 'value' => $layout['name'] )); ?>
+	<div class="pdc-hidden">
+		<?php pdc_hidden_input(array( 'name' => $prefix.'[pdc_fc_layout]', 'value' => $layout['name'] )); ?>
 	</div>
 	
-	<div class="acf-fc-layout-handle" title="<?php _e('Drag to reorder','acf'); ?>"><?php echo $title; ?></div>
+	<div class="pdc-fc-layout-handle" title="<?php _e('Drag to reorder','pdc'); ?>"><?php echo $title; ?></div>
 	
-	<div class="acf-fc-layout-controlls">
-		<a class="acf-icon -plus small" href="#" data-event="add-layout" title="<?php _e('Add layout','acf'); ?>"></a>
-		<a class="acf-icon -minus small" href="#" data-event="remove-layout" title="<?php _e('Remove layout','acf'); ?>"></a>
-		<a class="acf-icon -collapse small" href="#" data-event="collapse-layout" title="<?php _e('Click to toggle','acf'); ?>"></a>
+	<div class="pdc-fc-layout-controlls">
+		<a class="pdc-icon -plus small" href="#" data-event="add-layout" title="<?php _e('Add layout','pdc'); ?>"></a>
+		<a class="pdc-icon -minus small" href="#" data-event="remove-layout" title="<?php _e('Remove layout','pdc'); ?>"></a>
+		<a class="pdc-icon -collapse small" href="#" data-event="collapse-layout" title="<?php _e('Click to toggle','pdc'); ?>"></a>
 	</div>
 	
 <?php if( !empty($sub_fields) ): ?>
 	
 	<?php if( $layout['display'] == 'table' ): ?>
-	<table class="acf-table">
+	<table class="pdc-table">
 		
 		<thead>
 			<tr>
 				<?php foreach( $sub_fields as $sub_field ): 
 					
 					// prepare field (allow sub fields to be removed)
-					$sub_field = acf_prepare_field($sub_field);
+					$sub_field = pdc_prepare_field($sub_field);
 					
 					
 					// bail ealry if no field
@@ -451,7 +451,7 @@ class acf_field_flexible_content extends acf_field {
 					
 					// vars
 					$atts = array();
-					$atts['class'] = 'acf-th';
+					$atts['class'] = 'pdc-th';
 					$atts['data-name'] = $sub_field['_name'];
 					$atts['data-type'] = $sub_field['type'];
 					$atts['data-key'] = $sub_field['key'];
@@ -466,8 +466,8 @@ class acf_field_flexible_content extends acf_field {
 					}
 					
 					?>
-					<th <?php echo acf_esc_attr( $atts ); ?>>
-						<?php echo acf_get_field_label( $sub_field ); ?>
+					<th <?php echo pdc_esc_attr( $atts ); ?>>
+						<?php echo pdc_get_field_label( $sub_field ); ?>
 						<?php if( $sub_field['instructions'] ): ?>
 							<p class="description"><?php echo $sub_field['instructions']; ?></p>
 						<?php endif; ?>
@@ -479,7 +479,7 @@ class acf_field_flexible_content extends acf_field {
 		
 		<tbody>
 	<?php else: ?>
-	<div class="acf-fields <?php if($layout['display'] == 'row'): ?>-left<?php endif; ?>">
+	<div class="pdc-fields <?php if($layout['display'] == 'row'): ?>-left<?php endif; ?>">
 	<?php endif; ?>
 	
 		<?php
@@ -488,7 +488,7 @@ class acf_field_flexible_content extends acf_field {
 		foreach( $sub_fields as $sub_field ) {
 			
 			// prevent repeater field from creating multiple conditional logic items for each row
-			if( $i !== 'acfcloneindex' ) {
+			if( $i !== 'pdccloneindex' ) {
 				
 				$sub_field['conditional_logic'] = 0;
 				
@@ -514,7 +514,7 @@ class acf_field_flexible_content extends acf_field {
 			
 			
 			// render input
-			acf_render_field_wrap( $sub_field, $el );
+			pdc_render_field_wrap( $sub_field, $el );
 		
 		}
 		
@@ -571,23 +571,23 @@ class acf_field_flexible_content extends acf_field {
 			$layout_prefix = "{$field['prefix']}[layouts][{$layout['key']}]";
 			
 			
-?><tr class="acf-field acf-field-setting-fc_layout" data-name="fc_layout" data-setting="flexible_content" data-id="<?php echo $layout['key']; ?>">
-	<td class="acf-label">
-		<label><?php _e("Layout",'acf'); ?></label>
-		<p class="description acf-fl-actions">
-			<a data-name="acf-fc-reorder" title="<?php _e("Reorder Layout",'acf'); ?>" ><?php _e("Reorder",'acf'); ?></a>
-			<a data-name="acf-fc-delete" title="<?php _e("Delete Layout",'acf'); ?>" href="#"><?php _e("Delete",'acf'); ?></a>
-			<a data-name="acf-fc-duplicate" title="<?php _e("Duplicate Layout",'acf'); ?>" href="#"><?php _e("Duplicate",'acf'); ?></a>
-			<a data-name="acf-fc-add" title="<?php _e("Add New Layout",'acf'); ?>" href="#"><?php _e("Add New",'acf'); ?></a>
+?><tr class="pdc-field pdc-field-setting-fc_layout" data-name="fc_layout" data-setting="flexible_content" data-id="<?php echo $layout['key']; ?>">
+	<td class="pdc-label">
+		<label><?php _e("Layout",'pdc'); ?></label>
+		<p class="description pdc-fl-actions">
+			<a data-name="pdc-fc-reorder" title="<?php _e("Reorder Layout",'pdc'); ?>" ><?php _e("Reorder",'pdc'); ?></a>
+			<a data-name="pdc-fc-delete" title="<?php _e("Delete Layout",'pdc'); ?>" href="#"><?php _e("Delete",'pdc'); ?></a>
+			<a data-name="pdc-fc-duplicate" title="<?php _e("Duplicate Layout",'pdc'); ?>" href="#"><?php _e("Duplicate",'pdc'); ?></a>
+			<a data-name="pdc-fc-add" title="<?php _e("Add New Layout",'pdc'); ?>" href="#"><?php _e("Add New",'pdc'); ?></a>
 		</p>
 	</td>
-	<td class="acf-input">
+	<td class="pdc-input">
 		
-		<ul class="acf-fc-meta acf-bl">
-			<li class="acf-fc-meta-key">
+		<ul class="pdc-fc-meta pdc-bl">
+			<li class="pdc-fc-meta-key">
 				<?php 
 				
-				acf_hidden_input(array(
+				pdc_hidden_input(array(
 					'name'		=> "{$layout_prefix}[key]",
 					'data-name'	=> 'layout-key',
 					'value'		=> $layout['key']
@@ -595,74 +595,74 @@ class acf_field_flexible_content extends acf_field {
 				
 				?>
 			</li>
-			<li class="acf-fc-meta-label">
+			<li class="pdc-fc-meta-label">
 				<?php 
 				
-				acf_render_field(array(
+				pdc_render_field(array(
 					'type'		=> 'text',
 					'name'		=> 'label',
 					'prefix'	=> $layout_prefix,
 					'value'		=> $layout['label'],
-					'prepend'	=> __('Label','acf')
+					'prepend'	=> __('Label','pdc')
 				));
 				
 				?>
 			</li>
-			<li class="acf-fc-meta-name">
+			<li class="pdc-fc-meta-name">
 				<?php 
 						
-				acf_render_field(array(
+				pdc_render_field(array(
 					'type'		=> 'text',
 					'name'		=> 'name',
 					'prefix'	=> $layout_prefix,
 					'value'		=> $layout['name'],
-					'prepend'	=> __('Name','acf')
+					'prepend'	=> __('Name','pdc')
 				));
 				
 				?>
 			</li>
-			<li class="acf-fc-meta-display">
-				<div class="acf-input-prepend"><?php _e('Layout','acf'); ?></div>
-				<div class="acf-input-wrap select">
+			<li class="pdc-fc-meta-display">
+				<div class="pdc-input-prepend"><?php _e('Layout','pdc'); ?></div>
+				<div class="pdc-input-wrap select">
 					<?php 
 					
-					acf_render_field(array(
+					pdc_render_field(array(
 						'type'		=> 'select',
 						'name'		=> 'display',
 						'prefix'	=> $layout_prefix,
 						'value'		=> $layout['display'],
 						'choices'	=> array(
-							'table'			=> __('Table','acf'),
-							'block'			=> __('Block','acf'),
-							'row'			=> __('Row','acf')
+							'table'			=> __('Table','pdc'),
+							'block'			=> __('Block','pdc'),
+							'row'			=> __('Row','pdc')
 						),
 					));
 					
 					?>
 				</div>
 			</li>
-			<li class="acf-fc-meta-min">
+			<li class="pdc-fc-meta-min">
 				<?php
 						
-				acf_render_field(array(
+				pdc_render_field(array(
 					'type'		=> 'text',
 					'name'		=> 'min',
 					'prefix'	=> $layout_prefix,
 					'value'		=> $layout['min'],
-					'prepend'	=> __('Min','acf')
+					'prepend'	=> __('Min','pdc')
 				));
 				
 				?>
 			</li>
-			<li class="acf-fc-meta-max">
+			<li class="pdc-fc-meta-max">
 				<?php 
 				
-				acf_render_field(array(
+				pdc_render_field(array(
 					'type'		=> 'text',
 					'name'		=> 'max',
 					'prefix'	=> $layout_prefix,
 					'value'		=> $layout['max'],
-					'prepend'	=> __('Max','acf')
+					'prepend'	=> __('Max','pdc')
 				));
 				
 				?>
@@ -676,7 +676,7 @@ class acf_field_flexible_content extends acf_field {
 			'parent'	=> $field['ID']
 		);
 		
-		acf_get_view('field-group-fields', $args);
+		pdc_get_view('field-group-fields', $args);
 		
 		?>
 	</td>
@@ -688,8 +688,8 @@ class acf_field_flexible_content extends acf_field {
 		
 		
 		// min
-		acf_render_field_setting( $field, array(
-			'label'			=> __('Button Label','acf'),
+		pdc_render_field_setting( $field, array(
+			'label'			=> __('Button Label','pdc'),
 			'instructions'	=> '',
 			'type'			=> 'text',
 			'name'			=> 'button_label',
@@ -697,8 +697,8 @@ class acf_field_flexible_content extends acf_field {
 		
 		
 		// min
-		acf_render_field_setting( $field, array(
-			'label'			=> __('Minimum Layouts','acf'),
+		pdc_render_field_setting( $field, array(
+			'label'			=> __('Minimum Layouts','pdc'),
 			'instructions'	=> '',
 			'type'			=> 'number',
 			'name'			=> 'min',
@@ -706,8 +706,8 @@ class acf_field_flexible_content extends acf_field {
 		
 		
 		// max
-		acf_render_field_setting( $field, array(
-			'label'			=> __('Maximum Layouts','acf'),
+		pdc_render_field_setting( $field, array(
+			'label'			=> __('Maximum Layouts','pdc'),
 			'instructions'	=> '',
 			'type'			=> 'number',
 			'name'			=> 'max',
@@ -742,7 +742,7 @@ class acf_field_flexible_content extends acf_field {
 		
 		
 		// value must be an array
-		$value = acf_get_array( $value );
+		$value = pdc_get_array( $value );
 		
 		
 		// vars
@@ -769,7 +769,7 @@ class acf_field_flexible_content extends acf_field {
 			
 			// append to $values
 			$rows[ $i ] = array();
-			$rows[ $i ]['acf_fc_layout'] = $l;
+			$rows[ $i ]['pdc_fc_layout'] = $l;
 			
 			
 			// bail early if layout deosnt contain sub fields
@@ -792,7 +792,7 @@ class acf_field_flexible_content extends acf_field {
 				
 				
 				// bail ealry if no name (tab)
-				if( acf_is_empty($sub_field['name']) ) continue;
+				if( pdc_is_empty($sub_field['name']) ) continue;
 				
 				
 				// update full name
@@ -800,7 +800,7 @@ class acf_field_flexible_content extends acf_field {
 				
 				
 				// get value
-				$sub_value = acf_get_value( $post_id, $sub_field );
+				$sub_value = pdc_get_value( $post_id, $sub_field );
 				
 				
 				// add value
@@ -865,7 +865,7 @@ class acf_field_flexible_content extends acf_field {
 		foreach( array_keys($value) as $i ) {
 			
 			// get layout name
-			$l = $value[ $i ]['acf_fc_layout'];
+			$l = $value[ $i ]['pdc_fc_layout'];
 			
 			
 			// bail early if layout deosnt exist
@@ -884,11 +884,11 @@ class acf_field_flexible_content extends acf_field {
 				
 				
 				// bail ealry if no name (tab)
-				if( acf_is_empty($sub_field['name']) ) continue;
+				if( pdc_is_empty($sub_field['name']) ) continue;
 				
 				
 				// extract value
-				$sub_value = acf_extract_var( $value[ $i ], $sub_field['key'] );
+				$sub_value = pdc_extract_var( $value[ $i ], $sub_field['key'] );
 				
 				
 				// update $sub_field name
@@ -896,7 +896,7 @@ class acf_field_flexible_content extends acf_field {
 					
 				
 				// format value
-				$sub_value = acf_format_value( $sub_value, $post_id, $sub_field );
+				$sub_value = pdc_format_value( $sub_value, $post_id, $sub_field );
 				
 				
 				// append to $row
@@ -927,10 +927,10 @@ class acf_field_flexible_content extends acf_field {
 	
 	function validate_value( $valid, $value, $field, $input ){
 		
-		// remove acfcloneindex
-		if( isset($value['acfcloneindex']) ) {
+		// remove pdccloneindex
+		if( isset($value['pdccloneindex']) ) {
 		
-			unset($value['acfcloneindex']);
+			unset($value['pdccloneindex']);
 			
 		}
 		
@@ -972,7 +972,7 @@ class acf_field_flexible_content extends acf_field {
 			foreach( $value as $i => $row ) {	
 				
 				// get layout
-				$l = $row['acf_fc_layout'];
+				$l = $row['pdc_fc_layout'];
 				
 				
 				// bail if layout doesn't exist
@@ -1000,7 +1000,7 @@ class acf_field_flexible_content extends acf_field {
 					
 					
 					// validate
-					acf_validate_value( $value[ $i ][ $k ], $sub_field, "{$input}[{$i}][{$k}]" );
+					pdc_validate_value( $value[ $i ][ $k ], $sub_field, "{$input}[{$i}][{$k}]" );
 				
 				}
 				
@@ -1116,7 +1116,7 @@ class acf_field_flexible_content extends acf_field {
 	function delete_row( $i = 0, $field, $post_id ) {
 		
 		// vars
-		$value = acf_get_metadata( $post_id, $field['name'] );
+		$value = pdc_get_metadata( $post_id, $field['name'] );
 		
 		
 		// bail early if no value
@@ -1139,7 +1139,7 @@ class acf_field_flexible_content extends acf_field {
 			
 			
 			// delete value
-			acf_delete_value( $post_id, $sub_field );
+			pdc_delete_value( $post_id, $sub_field );
 			
 		}
 		
@@ -1168,11 +1168,11 @@ class acf_field_flexible_content extends acf_field {
 	function update_row( $row, $i = 0, $field, $post_id ) {
 		
 		// bail early if no layout reference
-		if( !is_array($row) || !isset($row['acf_fc_layout']) ) return false;
+		if( !is_array($row) || !isset($row['pdc_fc_layout']) ) return false;
 		
 		
 		// get layout
-		$layout = $this->get_layout($row['acf_fc_layout'], $field);
+		$layout = $this->get_layout($row['pdc_fc_layout'], $field);
 		
 		
 		// bail early if no layout
@@ -1209,7 +1209,7 @@ class acf_field_flexible_content extends acf_field {
 								
 			
 			// update field
-			acf_update_value( $value, $post_id, $sub_field );
+			pdc_update_value( $value, $post_id, $sub_field );
 				
 		}
 		
@@ -1246,17 +1246,17 @@ class acf_field_flexible_content extends acf_field {
 		
 		// vars
 		$new_value = array();
-		$old_value = acf_get_metadata( $post_id, $field['name'] );
+		$old_value = pdc_get_metadata( $post_id, $field['name'] );
 		$old_value = is_array($old_value) ? $old_value : array();
 		
 		
 		// update
 		if( !empty($value) ) { $i = -1;
 			
-			// remove acfcloneindex
-			if( isset($value['acfcloneindex']) ) {
+			// remove pdccloneindex
+			if( isset($value['pdccloneindex']) ) {
 			
-				unset($value['acfcloneindex']);
+				unset($value['pdccloneindex']);
 				
 			}
 			
@@ -1265,11 +1265,11 @@ class acf_field_flexible_content extends acf_field {
 			foreach( $value as $row ) {	$i++;
 				
 				// bail early if no layout reference
-				if( !is_array($row) || !isset($row['acf_fc_layout']) ) continue;
+				if( !is_array($row) || !isset($row['pdc_fc_layout']) ) continue;
 				
 				
 				// delete old row if layout has changed
-				if( isset($old_value[ $i ]) && $old_value[ $i ] !== $row['acf_fc_layout'] ) {
+				if( isset($old_value[ $i ]) && $old_value[ $i ] !== $row['pdc_fc_layout'] ) {
 					
 					$this->delete_row( $i, $field, $post_id );
 					
@@ -1281,7 +1281,7 @@ class acf_field_flexible_content extends acf_field {
 				
 				
 				// append to order
-				$new_value[] = $row['acf_fc_layout'];
+				$new_value[] = $row['pdc_fc_layout'];
 				
 			}
 			
@@ -1332,7 +1332,7 @@ class acf_field_flexible_content extends acf_field {
 	function delete_value( $post_id, $key, $field ) {
 		
 		// vars
-		$old_value = acf_get_metadata( $post_id, $field['name'] );
+		$old_value = pdc_get_metadata( $post_id, $field['name'] );
 		$old_value = is_array($old_value) ? $old_value : array();
 		
 		
@@ -1360,7 +1360,7 @@ class acf_field_flexible_content extends acf_field {
 	*  @date	23/01/13
 	*
 	*  @param	$field - the field array holding all the field options
-	*  @param	$post_id - the field group ID (post_type = acf)
+	*  @param	$post_id - the field group ID (post_type = pdc)
 	*
 	*  @return	$field - the modified field
 	*/
@@ -1368,7 +1368,7 @@ class acf_field_flexible_content extends acf_field {
 	function update_field( $field ) {
 		
 		// vars
-		$layouts = acf_extract_var($field, 'layouts');
+		$layouts = pdc_extract_var($field, 'layouts');
 		
 		
 		// update layouts
@@ -1422,7 +1422,7 @@ class acf_field_flexible_content extends acf_field {
 				
 					foreach( $layout['sub_fields'] as $sub_field ) {
 					
-						acf_delete_field( $sub_field['ID'] );
+						pdc_delete_field( $sub_field['ID'] );
 						
 					}
 					// foreach
@@ -1465,7 +1465,7 @@ class acf_field_flexible_content extends acf_field {
 			foreach( $field['layouts'] as $layout ) {
 				
 				// extract sub fields
-				$extra = acf_extract_var( $layout, 'sub_fields' );
+				$extra = pdc_extract_var( $layout, 'sub_fields' );
 				
 				
 				// merge
@@ -1483,11 +1483,11 @@ class acf_field_flexible_content extends acf_field {
 		
 		
 		// save field to get ID
-		$field = acf_update_field( $field );
+		$field = pdc_update_field( $field );
 		
 		
 		// duplicate sub fields
-		acf_duplicate_fields( $sub_fields, $field['ID'] );
+		pdc_duplicate_fields( $sub_fields, $field['ID'] );
 		
 		
 		// return		
@@ -1512,18 +1512,18 @@ class acf_field_flexible_content extends acf_field {
 	function ajax_layout_title() {
 		
 		// options
-   		$options = acf_parse_args( $_POST, array(
+   		$options = pdc_parse_args( $_POST, array(
 			'post_id'		=> 0,
 			'i'				=> 0,
 			'field_key'		=> '',
 			'nonce'			=> '',
 			'layout'		=> '',
-			'acf'			=> array()
+			'pdc'			=> array()
 		));
 		
 		
 		// load field
-		$field = acf_get_field( $options['field_key'] );
+		$field = pdc_get_field( $options['field_key'] );
 		
 		if( !$field ) die();
 		
@@ -1545,12 +1545,12 @@ class acf_field_flexible_content extends acf_field {
 		// value
 		// this flexible content field may be a sub field so it is important to
 		// loop though all $_POST data to find thi's field's row value
-		$value = $options['acf'];
+		$value = $options['pdc'];
 		
 		while( is_array($value) ) {
 			
 			// move to end of array
-			// - avoids 'acf_fc_layout' value
+			// - avoids 'pdc_fc_layout' value
 			end( $value );
 			
 			
@@ -1590,7 +1590,7 @@ class acf_field_flexible_content extends acf_field {
 		
 		
 		// add loop
-		acf_add_loop(array(
+		pdc_add_loop(array(
 			'selector'	=> $field['name'],
 			'name'		=> $field['name'],
 			'value'		=> $rows,
@@ -1605,18 +1605,18 @@ class acf_field_flexible_content extends acf_field {
 		
 		
 		// filters
-		$title = apply_filters('acf/fields/flexible_content/layout_title', 							$title, $field, $layout, $i);
-		$title = apply_filters('acf/fields/flexible_content/layout_title/name='.$field['_name'],	$title, $field, $layout, $i);
-		$title = apply_filters('acf/fields/flexible_content/layout_title/key='.$field['key'],		$title, $field, $layout, $i);
+		$title = apply_filters('pdc/fields/flexible_content/layout_title', 							$title, $field, $layout, $i);
+		$title = apply_filters('pdc/fields/flexible_content/layout_title/name='.$field['_name'],	$title, $field, $layout, $i);
+		$title = apply_filters('pdc/fields/flexible_content/layout_title/key='.$field['key'],		$title, $field, $layout, $i);
 		
 		
 		// remove loop
-		acf_remove_loop();
+		pdc_remove_loop();
 		
 		
 		// prepend order
 		$order = is_numeric($i) ? $i+1 : 0;
-		$title = '<span class="acf-fc-layout-order">' . $order . '</span> ' . $title;
+		$title = '<span class="pdc-fc-layout-order">' . $order . '</span> ' . $title;
 		
 		
 		// return
@@ -1682,7 +1682,7 @@ class acf_field_flexible_content extends acf_field {
 		// loop
 		foreach( $field['layouts'] as $i => $layout ) {
 			
-			$field['layouts'][ $i ]['sub_fields'] = acf_prepare_fields_for_export( $layout['sub_fields'] );
+			$field['layouts'][ $i ]['sub_fields'] = pdc_prepare_fields_for_export( $layout['sub_fields'] );
 		
 		}
 		
@@ -1731,15 +1731,15 @@ class acf_field_flexible_content extends acf_field {
 		foreach( array_keys($field['layouts']) as $i ) {
 			
 			// extract layout
-			$layout = acf_extract_var( $field['layouts'], $i );
+			$layout = pdc_extract_var( $field['layouts'], $i );
 			
 			
-			// get valid layout (fixes ACF4 export code bug undefined index 'key')
+			// get valid layout (fixes pdc4 export code bug undefined index 'key')
 			if( empty($layout['key']) ) $layout['key'] = uniqid();
 			
 			
 			// extract sub fields
-			$sub_fields = acf_extract_var( $layout, 'sub_fields');
+			$sub_fields = pdc_extract_var( $layout, 'sub_fields');
 			
 			
 			// validate sub fields
@@ -1749,7 +1749,7 @@ class acf_field_flexible_content extends acf_field {
 				foreach( array_keys($sub_fields) as $j ) {
 					
 					// extract sub field
-					$sub_field = acf_extract_var( $sub_fields, $j );
+					$sub_field = pdc_extract_var( $sub_fields, $j );
 					
 					
 					// attributes
@@ -1805,7 +1805,7 @@ class acf_field_flexible_content extends acf_field {
 		// width has changed
 		if( isset($field['column_width']) ) {
 			
-			$field['wrapper']['width'] = acf_extract_var($field, 'column_width');
+			$field['wrapper']['width'] = pdc_extract_var($field, 'column_width');
 			
 		}
 		
@@ -1819,7 +1819,7 @@ class acf_field_flexible_content extends acf_field {
 
 
 // initialize
-acf_register_field_type( new acf_field_flexible_content() );
+pdc_register_field_type( new pdc_field_flexible_content() );
 
 endif; // class_exists check
 
