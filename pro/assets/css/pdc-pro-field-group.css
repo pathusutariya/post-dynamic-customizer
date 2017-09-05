@@ -1,0 +1,67 @@
+/*---------------------------------------------------------------------------------------------
+*
+*	Flexible Content
+*	
+*---------------------------------------------------------------------------------------------*/
+.pdc-fc-meta {
+  margin: 0 0 10px;
+  padding: 0;
+}
+.pdc-fc-meta li {
+  margin: 0 0 10px;
+  padding: 0;
+}
+.pdc-fc-meta .pdc-fc-meta-key {
+  display: none;
+}
+.pdc-fc-meta .pdc-fc-meta-display,
+.pdc-fc-meta .pdc-fc-meta-min {
+  float: left;
+  width: 33%;
+  padding-right: 10px;
+}
+.pdc-input-wrap.select {
+  border-radius: 0 3px 3px 0 !important;
+  border: #DFDFDF solid 1px;
+}
+.pdc-input-wrap.select select {
+  margin: 0;
+  border: 0 none;
+  padding: 3px;
+  height: 26px;
+}
+.pdc-fc-meta-label .pdc-input-prepend,
+.pdc-fc-meta-name .pdc-input-prepend,
+.pdc-fc-meta-display .pdc-input-prepend {
+  min-width: 45px;
+}
+.pdc-fl-actions {
+  visibility: hidden;
+}
+.pdc-field:hover .pdc-fl-actions {
+  visibility: visible;
+}
+.pdc-fl-actions a {
+  display: block;
+  line-height: 20px;
+  padding: 1px 0;
+  font-size: 13px;
+}
+.pdc-fl-actions a.ui-sortable-handle {
+  cursor: move;
+}
+/*---------------------------------------------------------------------------------------------
+*
+*	Clone
+*	
+*---------------------------------------------------------------------------------------------*/
+.pdc-field-object-clone {
+  /* group */
+  /* seamless */
+}
+.pdc-field-object-clone[data-display="seamless"] .pdc-field-setting-instructions,
+.pdc-field-object-clone[data-display="seamless"] .pdc-field-setting-layout,
+.pdc-field-object-clone[data-display="seamless"] .pdc-field-setting-wrapper,
+.pdc-field-object-clone[data-display="seamless"] .pdc-field-setting-conditional_logic {
+  display: none;
+}

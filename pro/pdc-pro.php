@@ -21,7 +21,7 @@ class pdc_pro {
 		
 		// update setting
 		pdc_update_setting( 'pro', true );
-		pdc_update_setting( 'name', __('Advanced Custom Fields PRO', 'pdc') );
+		pdc_update_setting( 'name', __('Post Dynamic Customizer', 'pdc') );
 		
 
 		// api
