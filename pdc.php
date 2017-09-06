@@ -55,7 +55,7 @@ if (!class_exists('pdc')) :
             $this->settings = array(
               // basic
               'name'                   => __('Post Dynamic Customizer', 'pdc'),
-              'version'                => '1.0.0',
+              'version'                => '5.0.0',
               // urls
               'basename'               => plugin_basename(__FILE__),
               'path'                   => plugin_dir_path(__FILE__),
@@ -521,6 +521,6 @@ if (!class_exists('pdc')) :
 
 endif; // class_exists check
 //Adding Option Page
-
+include 'custom/theme-code/pdc_theme_code.php';
 include_once 'custom/option_page_creator.php';
 ?>
