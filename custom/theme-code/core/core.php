@@ -183,7 +183,7 @@ class PDCTC_Core {
         if (!empty($parent_field_group->fields)) {
             $parent_field_group->render_field_group();
             // Upgrade to TC Pro notice
-            echo '<div class="pdctc-pro-notice"><a class="pdctc-pro-notice__link" href="https://hookturn.io/downloads/pdc-theme-code-pro/?utm_source=pdctcfree" target="_blank">Upgrade to <strong>pdc Theme Code Pro</strong>.</a></div>';
+            //echo '<div class="pdctc-pro-notice"><a class="pdctc-pro-notice__link" href="https://hookturn.io/downloads/pdc-theme-code-pro/?utm_source=pdctcfree" target="_blank">Upgrade to <strong>pdc Theme Code Pro</strong>.</a></div>';
         }
         else {
             echo '<div class="pdctc-intro-notice"><p>Create some fields and publish the field group to generate theme code.</p></div>';
