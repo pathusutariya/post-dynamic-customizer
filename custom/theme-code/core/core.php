@@ -80,7 +80,7 @@ class PDCTC_Core {
      */
     public function disabled_notice() {
         echo '<div class="notice notice-success is-dismissible">';
-        echo '<p>Plugin <strong>Advanced Custom Fields: Theme Code Pro</strong> is activated so plugin <strong>Advanced Custom Fields: Theme Code</strong> has been disabled.</p>';
+        echo '<p>Plugin <strong>Post Dynamic Customizer: Theme Code Pro</strong> is activated so plugin <strong>Post Dynamic Customizer: Theme Code</strong> has been disabled.</p>';
         echo '</div>';
     }
 

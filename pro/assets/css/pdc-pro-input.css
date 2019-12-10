@@ -1,3 +1,16 @@
+/*--------------------------------------------------------------------------------------------
+*
+*	Vars
+*
+*--------------------------------------------------------------------------------------------*/
+/* colors */
+/* pdc-field */
+/* responsive */
+/*--------------------------------------------------------------------------------------------
+*
+*	Mixins
+*
+*--------------------------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------------------------
 *
 *  Repeater
@@ -80,10 +93,12 @@ body.browser-msie .pdc-repeater .pdc-row-handle .pdc-icon.-minus {
 .pdc-repeater .pdc-row.pdc-clone {
   display: none !important;
 }
-.pdc-repeater .pdc-row:hover {
+.pdc-repeater .pdc-row:hover,
+.pdc-repeater .pdc-row.-hover {
   /* icons */
 }
-.pdc-repeater .pdc-row:hover > .pdc-row-handle .pdc-icon {
+.pdc-repeater .pdc-row:hover > .pdc-row-handle .pdc-icon,
+.pdc-repeater .pdc-row.-hover > .pdc-row-handle .pdc-icon {
   display: block;
 }
 .pdc-repeater > table > tbody > tr.ui-sortable-helper {
@@ -129,28 +144,26 @@ body.browser-msie .pdc-repeater .pdc-row-handle .pdc-icon.-minus {
 .pdc-flexible-content {
   position: relative;
 }
-.pdc-flexible-content > .no-value-message {
-  padding: 19px;
-  border: #ccc dashed 2px;
-  text-align: center;
-}
 .pdc-flexible-content > .clones {
   display: none;
 }
 .pdc-flexible-content > .values {
   margin: 0 0 8px;
 }
+.pdc-flexible-content > .values > .ui-sortable-placeholder {
+  visibility: visible !important;
+  border: 1px dashed #b4b9be;
+  box-shadow: none;
+  background: transparent;
+}
 .pdc-flexible-content .layout {
   position: relative;
-  margin: 20px 0;
+  margin: 20px 0 0;
   background: #fff;
   border: 1px solid #e1e1e1;
 }
 .pdc-flexible-content .layout:first-child {
   margin-top: 0;
-}
-.pdc-flexible-content .layout:last-child {
-  margin-bottom: 0;
 }
 .pdc-flexible-content .layout .pdc-fc-layout-handle {
   display: block;
@@ -175,57 +188,50 @@ body.browser-msie .pdc-repeater .pdc-row-handle .pdc-icon.-minus {
   font-size: 12px;
   color: #666;
 }
-/* controlls*/
-.pdc-flexible-content {
-  /* layout */
+html[dir="rtl"] .pdc-flexible-content .layout .pdc-fc-layout-order {
+  float: right;
+  margin-right: 0;
+  margin-left: 5px;
 }
-.pdc-flexible-content .layout {
-  /* controlls */
-  /* hover */
-}
-.pdc-flexible-content .layout .pdc-fc-layout-controlls {
+.pdc-flexible-content .layout .pdc-fc-layout-controls {
   position: absolute;
   top: 8px;
   right: 8px;
 }
-.pdc-flexible-content .layout .pdc-fc-layout-controlls .pdc-icon {
+.pdc-flexible-content .layout .pdc-fc-layout-controls .pdc-icon {
   display: block;
   float: left;
   margin: 0 0 0 5px;
 }
-.pdc-flexible-content .layout .pdc-fc-layout-controlls .pdc-icon.-plus,
-.pdc-flexible-content .layout .pdc-fc-layout-controlls .pdc-icon.-minus {
+.pdc-flexible-content .layout .pdc-fc-layout-controls .pdc-icon.-plus,
+.pdc-flexible-content .layout .pdc-fc-layout-controls .pdc-icon.-minus {
   visibility: hidden;
 }
-.pdc-flexible-content .layout .pdc-fc-layout-controlls .pdc-icon.-collapse {
+.pdc-flexible-content .layout .pdc-fc-layout-controls .pdc-icon.-collapse {
   color: #72777c;
   border-color: transparent;
 }
-.pdc-flexible-content .layout .pdc-fc-layout-controlls .pdc-icon.-collapse:hover {
+.pdc-flexible-content .layout .pdc-fc-layout-controls .pdc-icon.-collapse:hover {
   color: #23282d;
   background: transparent;
 }
-.pdc-flexible-content .layout:hover .pdc-fc-layout-controlls .pdc-icon.-plus,
-.pdc-flexible-content .layout.-open .pdc-fc-layout-controlls .pdc-icon.-plus,
-.pdc-flexible-content .layout:hover .pdc-fc-layout-controlls .pdc-icon.-minus,
-.pdc-flexible-content .layout.-open .pdc-fc-layout-controlls .pdc-icon.-minus {
+html[dir="rtl"] .pdc-flexible-content .layout .pdc-fc-layout-controls {
+  right: auto;
+  left: 9px;
+}
+.pdc-flexible-content .layout:hover .pdc-fc-layout-controls .pdc-icon.-plus,
+.pdc-flexible-content .layout.-hover .pdc-fc-layout-controls .pdc-icon.-plus,
+.pdc-flexible-content .layout:hover .pdc-fc-layout-controls .pdc-icon.-minus,
+.pdc-flexible-content .layout.-hover .pdc-fc-layout-controls .pdc-icon.-minus {
   visibility: visible;
 }
-.pdc-flexible-content > .values > .ui-sortable-placeholder {
-  visibility: visible !important;
-  border: 1px dashed #b4b9be;
-  box-shadow: none;
-  background: transparent;
-}
-/* collapsed */
-.pdc-flexible-content .layout.-collapsed .pdc-fc-layout-handle {
+.pdc-flexible-content .layout.-collapsed > .pdc-fc-layout-handle {
   border-bottom-width: 0;
 }
 .pdc-flexible-content .layout.-collapsed > .pdc-fields,
 .pdc-flexible-content .layout.-collapsed > .pdc-table {
   display: none;
 }
-/* table */
 .pdc-flexible-content .layout > .pdc-table {
   border: 0 none;
   box-shadow: none;
@@ -236,35 +242,19 @@ body.browser-msie .pdc-repeater .pdc-row-handle .pdc-icon.-minus {
 .pdc-flexible-content .layout > .pdc-table > thead > tr > th {
   background: #F9F9F9;
 }
-/* popup */
-.pdc-fc-popup {
-  position: absolute;
-  border-radius: 5px;
-  background: #32373c;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  min-width: 135px;
-  z-index: 9999;
-  /* bit */
-  /* focus helper */
+.pdc-flexible-content .no-value-message {
+  padding: 19px;
+  border: #ccc dashed 2px;
+  text-align: center;
+  display: none;
 }
-.pdc-fc-popup:before {
-  content: "";
+.pdc-flexible-content.-empty > .no-value-message {
   display: block;
-  position: absolute;
-  left: 50%;
-  top: 100%;
-  margin: 0 0 0 -7px;
-  width: 0;
-  height: 0;
-  border: transparent solid 7px;
-  border-top-color: #32373c;
-  z-index: 2;
 }
-.pdc-fc-popup.bottom:before {
-  top: auto;
-  bottom: 100%;
-  border-top-color: transparent;
-  border-bottom-color: #32373c;
+.pdc-fc-popup {
+  padding: 5px 0;
+  z-index: 900001;
+  min-width: 135px;
 }
 .pdc-fc-popup ul,
 .pdc-fc-popup li {
@@ -272,9 +262,6 @@ body.browser-msie .pdc-repeater .pdc-row-handle .pdc-icon.-minus {
   display: block;
   margin: 0;
   padding: 0;
-}
-.pdc-fc-popup ul {
-  padding: 7px 0;
 }
 .pdc-fc-popup li {
   position: relative;
@@ -286,7 +273,7 @@ body.browser-msie .pdc-repeater .pdc-row-handle .pdc-icon.-minus {
   border-radius: 8px;
   font-size: 9px;
   line-height: 15px;
-  padding: 0 7px;
+  padding: 0 5px;
   background: #d54e21;
   text-align: center;
   color: #fff;
@@ -295,9 +282,7 @@ body.browser-msie .pdc-repeater .pdc-row-handle .pdc-icon.-minus {
 }
 .pdc-fc-popup a {
   color: #eee;
-  font-size: 13px;
-  line-height: 16px;
-  padding: 7px 12px;
+  padding: 5px 10px;
   display: block;
   text-decoration: none;
   position: relative;
@@ -309,28 +294,6 @@ body.browser-msie .pdc-repeater .pdc-row-handle .pdc-icon.-minus {
 .pdc-fc-popup a.disabled {
   color: #888;
   background: transparent;
-}
-.pdc-fc-popup .focus {
-  position: absolute;
-  width: 0;
-  height: 0;
-  left: 100%;
-  top: 0;
-  opacity: 0;
-}
-.pdc-fc-popup ul li a .pdc-fc-popup ul li a .status .pdc-fc-popup ul li a:hover .status {
-  border-color: #fff;
-  color: #fff;
-}
-/* rtl */
-html[dir="rtl"] .pdc-flexible-content .layout .pdc-fc-layout-order {
-  float: right;
-  margin-right: 0;
-  margin-left: 5px;
-}
-html[dir="rtl"] .pdc-flexible-content .layout .pdc-fc-layout-controlls {
-  right: auto;
-  left: 9px;
 }
 /*---------------------------------------------------------------------------------------------
 *
@@ -375,6 +338,7 @@ html[dir="rtl"] .pdc-flexible-content .layout .pdc-fc-layout-controlls {
   float: left;
   cursor: pointer;
   position: relative;
+  /* hover */
   /* sortable */
   /* active */
   /* icon */
@@ -400,12 +364,18 @@ html[dir="rtl"] .pdc-flexible-content .layout .pdc-fc-layout-controlls {
   height: 100%;
   transform: translate(50%, 50%);
 }
+html[dir="rtl"] .pdc-gallery .pdc-gallery-attachment .thumbnail {
+  transform: translate(-50%, 50%);
+}
 .pdc-gallery .pdc-gallery-attachment .thumbnail img {
   display: block;
   height: auto;
   max-height: 100%;
   width: auto;
   transform: translate(-50%, -50%);
+}
+html[dir="rtl"] .pdc-gallery .pdc-gallery-attachment .thumbnail img {
+  transform: translate(50%, -50%);
 }
 .pdc-gallery .pdc-gallery-attachment .filename {
   position: absolute;
@@ -426,6 +396,10 @@ html[dir="rtl"] .pdc-flexible-content .layout .pdc-fc-layout-controlls {
   position: absolute;
   top: 0;
   right: 0;
+  display: none;
+}
+.pdc-gallery .pdc-gallery-attachment:hover .actions {
+  display: block;
 }
 .pdc-gallery .pdc-gallery-attachment.ui-sortable-helper .margin {
   border: none;
@@ -500,6 +474,15 @@ html[dir="rtl"] .pdc-gallery .pdc-gallery-attachment {
   background: #F1F1F1;
   border-bottom: #DFDFDF solid 1px;
 }
+.pdc-gallery .pdc-gallery-side-info:after {
+  clear: both;
+  content: "";
+  display: table;
+}
+html[dir="rtl"] .pdc-gallery .pdc-gallery-side-info {
+  margin-left: 0;
+  margin-right: -10px;
+}
 .pdc-gallery .pdc-gallery-side-info img {
   float: left;
   width: auto;
@@ -556,15 +539,14 @@ html[dir="rtl"] .pdc-gallery .pdc-gallery-side-info img {
   padding: 0 4px 8px 0 !important;
   width: auto !important;
   vertical-align: top;
-  /* rtl */
+}
+html[dir="rtl"] .pdc-gallery .pdc-gallery-side-data .pdc-label,
+html[dir="rtl"] .pdc-gallery .pdc-gallery-side-data th.label {
+  padding: 0 0 8px 4px !important;
 }
 .pdc-gallery .pdc-gallery-side-data .pdc-label label,
 .pdc-gallery .pdc-gallery-side-data th.label label {
   font-weight: normal;
-}
-html[dir="rtl"] .pdc-gallery .pdc-gallery-side-data .pdc-label,
-html[dir="rtl"] .pdc-gallery .pdc-gallery-side-data th.label {
-  text-align: left;
 }
 .pdc-gallery .pdc-gallery-side-data .pdc-input,
 .pdc-gallery .pdc-gallery-side-data td.field {
@@ -617,9 +599,16 @@ html[dir="rtl"] .pdc-gallery .pdc-gallery-side-data th.label {
 }
 /* media modal selected */
 .pdc-media-modal .attachment.pdc-selected {
-  box-shadow: 0 0 0 3px #fff inset, 0 0 0 7px #1e8cbe inset !important;
-  opacity: 0.5;
+  box-shadow: 0 0 0 3px #fff inset, 0 0 0 7px #0073aa inset !important;
 }
 .pdc-media-modal .attachment.pdc-selected .check {
   display: none !important;
+}
+.pdc-media-modal .attachment.pdc-selected .thumbnail {
+  opacity: 0.25 !important;
+}
+.pdc-media-modal .attachment.pdc-selected .attachment-preview:before {
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  position: relative;
 }

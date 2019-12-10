@@ -19,13 +19,12 @@ if (function_exists('pdc_add_options_page')) {
       'menu_title'  => 'General',
       'parent_slug' => 'layout-setting',
     ));
-    
+
     pdc_add_options_sub_page(array(
       'page_title'  => 'Header Layout',
       'menu_title'  => 'Header',
       'parent_slug' => 'layout-setting',
     ));
-    
     
     pdc_add_options_sub_page(array(
       'page_title'  => 'Footer Layout',
