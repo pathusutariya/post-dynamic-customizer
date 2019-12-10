@@ -8,3 +8,7 @@ A WordPress plugin that allows you to create a custom fields for the post, and u
 
 ## Disclaimer
 Please Do not use this plugin.  This is specially modified version for personal use.
+
+#### General Instructions
+
+- add google map api into `pdc.php` at root.
